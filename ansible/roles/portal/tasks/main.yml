@@ -1,0 +1,35 @@
+---
+- name: Create data directory
+  file: dest=/data/portal state=directory owner=www-data group=www-data mode=0755
+
+- name: Sync portal files to the remote server
+  synchronize:
+    src: portal/
+    dest: /data/portal/
+    delete: yes
+    recursive: yes
+
+- name: Install Portal webserver docker container
+  docker_container:
+    name: portal
+    image: nimmis/apache-php7
+    state: started
+    pull: true
+    ports:
+      - "9000:80"
+    volumes:
+      - /data/portal:/var/www/html:ro
+
+- name: Wait 300 seconds for port 9200 to become open on the host
+  wait_for:
+    host: "{{ hostvars[inventory_hostname].ansible_host }}"
+    port: 9000
+    timeout: 300
+  become: no
+  delegate_to: localhost
+
+# Create configuration file for portal
+- name: Create configuration for portal
+  template:
+    src: config.j2
+    dest: /data/portal/config.inc.php
