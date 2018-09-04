@@ -21,38 +21,11 @@ variable "LOCATION" {
   description = "The name of the resource group in which to create the virtual network."
 }
 
-# SSH public key used for the backend web and sql server
-variable "SSH_KEY_DATA" {}
-
 # Static password used for CGF, WAF and SQL database
 variable "PASSWORD" {}
 
 # Static password used for SQL database
 variable "DB_PASSWORD" {}
-
-# Barracuda Firewall Control Center Secret for deployment
-variable "CCSECRET" {
-  description = "Barracuda Firewall Control Center Secret"
-}
-
-# Barracuda Firewall Control Center Public IP to fetch the configuration PAR file
-variable "CCIPADDRESS" {
-  description = "Barracuda Firewall Control Center IP Address"
-}
-
-# Barracuda Firewall Control Center Range identifier
-variable "CCRANGEID" {
-  description = "Barracuda Firewall Control Center Range ID"
-}
-
-# Barracuda Firewall Control Center Cluster identifier
-#  description = "Barracuda Firewall Control Center Cluster Name"
-variable "CCCLUSTERNAME" {}
-
-# Barracuda Firewall Control Center Firewall identifier
-variable "CGFVMNAME" {
-  description = "CloudGen Firewall Name"
-}
 
 variable "WAF_LICENSE_TOKENS" {
   description = "Array of license tokens for CloudGen WAF"
@@ -66,13 +39,13 @@ variable "WAF_LICENSE_TOKENS" {
 # This variable defined the type of CGF and billing used. For BYOL you can use pool licenses for repeated deployments.
 variable "CGFIMAGESKU" {
   description = "Azure Marketplace Image SKU hourly (PAYG) or byol (Bring your own license)"
-  default = "payg"
+  default = "hourly"
 }
 
 # This variable defined the type of WAF and billing used. For BYOL you can use pool licenses for repeated deployments.
 variable "WAFIMAGESKU" {
   description = "Azure Marketplace Image SKU hourly (PAYG) or byol (Bring your own license)"
-  default = "payg"
+  default = "hourly"
 }
 
 ##############################################################################################################
@@ -81,8 +54,6 @@ variable "WAFIMAGESKU" {
 
 terraform {
   required_version = ">= 0.11"
-
-  backend "azurerm" {}
 }
 
 ##############################################################################################################
@@ -105,18 +76,13 @@ provider "azurerm" {
 # Static variables
 ##############################################################################################################
 
-variable "network_cudalab" {
-  description = ""
-  default     = "172.31.0.0/16"
-}
-
 variable "vnet" {
   type        = "map"
   description = ""
 
   default = {
-    "blue"  = "172.30.104.0/24"
-    "green" = "172.30.105.0/24"
+    "blue"  = "172.16.100.0/24"
+    "green" = "172.16.101.0/24"
   }
 }
 
@@ -125,8 +91,8 @@ variable "subnet_cgf" {
   description = ""
 
   default = {
-    "blue"  = "172.30.104.0/26"
-    "green" = "172.30.105.0/26"
+    "blue"  = "172.16.100.0/26"
+    "green" = "172.16.101.0/26"
   }
 }
 
@@ -135,8 +101,8 @@ variable "subnet_waf" {
   description = ""
 
   default = {
-    "blue"  = "172.30.104.64/26"
-    "green" = "172.30.105.64/26"
+    "blue"  = "172.16.100.64/26"
+    "green" = "172.16.101.64/26"
   }
 }
 
@@ -145,8 +111,8 @@ variable "subnet_web" {
   description = ""
 
   default = {
-    "blue"  = "172.30.104.128/26"
-    "green" = "172.30.105.128/26"
+    "blue"  = "172.16.100.128/26"
+    "green" = "172.16.101.128/26"
   }
 }
 
@@ -155,8 +121,8 @@ variable "subnet_db" {
   description = ""
 
   default = {
-    "blue"  = "172.30.104.192/26"
-    "green" = "172.30.105.192/26"
+    "blue"  = "172.16.100.192/26"
+    "green" = "172.16.101.192/26"
   }
 }
 
@@ -165,8 +131,8 @@ variable "cgf_a_ipaddress" {
   description = ""
 
   default = {
-    "blue"  = "172.30.104.10"
-    "green" = "172.30.105.10"
+    "blue"  = "172.16.100.10"
+    "green" = "172.16.101.10"
   }
 }
 
@@ -175,8 +141,8 @@ variable "cgf_subnetmask" {
   description = ""
 
   default = {
-    "blue"  = "24"
-    "green" = "24"
+    "blue"  = "26"
+    "green" = "26"
   }
 }
 
@@ -185,8 +151,8 @@ variable "cgf_defaultgateway" {
   description = ""
 
   default = {
-    "blue"  = "172.30.104.10"
-    "green" = "172.30.105.10"
+    "blue"  = "172.16.100.1"
+    "green" = "172.16.101.10"
   }
 }
 
@@ -205,8 +171,8 @@ variable "waf_ip_addresses" {
   description = ""
 
   default = {
-    "blue"  = ["172.30.104.70"]
-    "green" = ["172.30.105.70"]
+    "blue"  = ["172.16.100.70"]
+    "green" = ["172.16.101.70"]
   }
 }
 
@@ -215,8 +181,8 @@ variable "waf_subnetmask" {
   description = ""
 
   default = {
-    "blue"  = ["24"]
-    "green" = ["24"]
+    "blue"  = ["26"]
+    "green" = ["26"]
   }
 }
 
@@ -225,8 +191,8 @@ variable "waf_defaultgateway" {
   description = ""
 
   default = {
-    "blue"  = ["172.30.104.65"]
-    "green" = ["172.30.105.65"]
+    "blue"  = ["172.16.100.65"]
+    "green" = ["172.16.101.65"]
   }
 }
 
@@ -245,8 +211,8 @@ variable "web_ipaddress" {
   description = ""
 
   default = {
-    "blue"  = "172.30.104.132"
-    "green" = "172.30.105.132"
+    "blue"  = "172.16.100.132"
+    "green" = "172.16.101.132"
   }
 }
 
@@ -255,8 +221,8 @@ variable "sql_ipaddress" {
   description = ""
 
   default = {
-    "blue"  = "172.30.104.196"
-    "green" = "172.30.105.196"
+    "blue"  = "172.16.100.196"
+    "green" = "172.16.101.196"
   }
 }
 
