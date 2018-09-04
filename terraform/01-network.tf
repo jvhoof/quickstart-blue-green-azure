@@ -97,13 +97,6 @@ resource "azurerm_route_table" "wafroute" {
   }
 
   route {
-    name                   = "${var.PREFIX}-${var.DEPLOYMENTCOLOR}-WAFToCUDALAB"
-    address_prefix         = "${var.network_cudalab}"
-    next_hop_type          = "VirtualAppliance"
-    next_hop_in_ip_address = "${var.cgf_a_ipaddress[var.DEPLOYMENTCOLOR]}"
-  }
-
-  route {
     name                   = "${var.PREFIX}-${var.DEPLOYMENTCOLOR}-WAFToDEV"
     address_prefix         = "172.16.250.0/24"
     next_hop_type          = "VirtualAppliance"

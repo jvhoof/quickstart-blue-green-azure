@@ -44,12 +44,6 @@ echo ""
 SUMMARY="summary-$DEPLOYMENTCOLOR.out"
 
 echo ""
-echo "==> Verifying SSH key location and permissions"
-echo ""
-chmod 700 `dirname $DOWNLOADSECUREFILE1_SECUREFILEPATH`
-chmod 600 $DOWNLOADSECUREFILE1_SECUREFILEPATH
-
-echo ""
 echo "==> Starting Terraform deployment"
 echo ""
 cd terraform/
@@ -57,11 +51,7 @@ cd terraform/
 echo ""
 echo "==> Terraform init"
 echo ""
-terraform init \
-  -backend-config="storage_account_name=$BACKEND_STORAGE_ACCOUNT_NAME" \
-  -backend-config="container_name=$BACKEND_CONTAINER_NAME" \
-  -backend-config="key=$BACKEND_KEY_COLOR" \
-  -backend-config="access_key=$BACKEND_ARM_ACCESS_KEY" \
+terraform init
 
 echo ""
 echo "==> Terraform workspace [$DEPLOYMENTCOLOR]"
@@ -73,9 +63,7 @@ echo ""
 echo "==> Terraform plan"
 echo ""
 terraform plan --out "$PLAN" \
-                -var "CCSECRET=$CCSECRET" \
                 -var "PASSWORD=$PASSWORD" \
-                -var "SSH_KEY_DATA=$SSH_KEY_DATA" \
                 -var "DB_PASSWORD=$DB_PASSWORD" \
                 -var "AZURE_CLIENT_ID=$AZURE_CLIENT_ID" \
                 -var "AZURE_CLIENT_SECRET=$AZURE_CLIENT_SECRET" \
@@ -113,7 +101,7 @@ cd ../
 echo ""
 echo "==> Ansible configuration"
 echo ""
-ansible-playbook ansible/all.yml $ANSIBLEOPTS -i "$ANSIBLEINVENTORY" 
+#ansible-playbook ansible/all.yml $ANSIBLEOPTS -i "$ANSIBLEINVENTORY" 
 
 echo ""
 echo "==> Connectivity verification $DEPLOYMENTCOLOR environment"
@@ -127,26 +115,26 @@ echo ""
 echo "==> Terraform init"
 echo ""
 echo "BACKEND_STORAGE_ACCOUNT_NAME: [$BACKEND_STORAGE_ACCOUNT_NAME]"
-terraform init \
-  -backend-config="storage_account_name=$BACKEND_STORAGE_ACCOUNT_NAME" \
-  -backend-config="container_name=$BACKEND_CONTAINER_NAME" \
-  -backend-config="key=$BACKEND_KEY_TM" \
-  -backend-config="access_key=$BACKEND_ARM_ACCESS_KEY" 
+#terraform init \
+#  -backend-config="storage_account_name=$BACKEND_STORAGE_ACCOUNT_NAME" \
+#  -backend-config="container_name=$BACKEND_CONTAINER_NAME" \
+#  -backend-config="key=$BACKEND_KEY_TM" \
+#  -backend-config="access_key=$BACKEND_ARM_ACCESS_KEY" 
 
 echo ""
 echo "==> Terraform plan"
 echo ""
-terraform plan --out "$PLANATM" \
-                -var "CCSECRET=$CCSECRET" \
-                -var "PASSWORD=$PASSWORD" \
-                -var "SSH_KEY_DATA=$SSH_KEY_DATA" \
-                -var "AZURE_CLIENT_ID=$AZURE_CLIENT_ID" \
-                -var "AZURE_CLIENT_SECRET=$AZURE_CLIENT_SECRET" \
-                -var "AZURE_SUBSCRIPTION_ID=$AZURE_SUBSCRIPTION_ID" \
-                -var "AZURE_TENANT_ID=$AZURE_TENANT_ID" \
-                -var "DEPLOYMENTCOLOR=$DEPLOYMENTCOLOR"
+#terraform plan --out "$PLANATM" \
+#                -var "CCSECRET=$CCSECRET" \
+#                -var "PASSWORD=$PASSWORD" \
+#                -var "SSH_KEY_DATA=$SSH_KEY_DATA" \
+#                -var "AZURE_CLIENT_ID=$AZURE_CLIENT_ID" \
+#                -var "AZURE_CLIENT_SECRET=$AZURE_CLIENT_SECRET" \
+#                -var "AZURE_SUBSCRIPTION_ID=$AZURE_SUBSCRIPTION_ID" \
+#                -var "AZURE_TENANT_ID=$AZURE_TENANT_ID" \
+#                -var "DEPLOYMENTCOLOR=$DEPLOYMENTCOLOR"
 
 echo ""
 echo "==> Terraform apply"
 echo ""
-terraform apply "$PLANATM"
+#terraform apply "$PLANATM"
