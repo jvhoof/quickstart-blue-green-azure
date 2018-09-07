@@ -27,10 +27,8 @@ variable "PASSWORD" {}
 # Static password used for SQL database
 variable "DB_PASSWORD" {}
 
-variable "WAF_LICENSE_TOKENS" {
-  description = "Array of license tokens for CloudGen WAF"
-  type        = "list"
-}
+# SSH public key used for the backend web and sql server
+variable "SSH_KEY_DATA" {}
 
 ##############################################################################################################
 # Barracuda License type selection
@@ -152,7 +150,7 @@ variable "cgf_defaultgateway" {
 
   default = {
     "blue"  = "172.16.100.1"
-    "green" = "172.16.101.10"
+    "green" = "172.16.101.1"
   }
 }
 

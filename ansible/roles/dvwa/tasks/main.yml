@@ -8,13 +8,13 @@
     ports:
     - "9100:80"
 
-- name: Wait 300 seconds for port 9100 to become open on the host
-  wait_for:
-    host: "{{ hostvars[inventory_hostname].ansible_host }}"
-    port: 9100
-    timeout: 300
-  become: no
-  delegate_to: localhost
+#- name: Wait 300 seconds for port 9100 to become open on the host
+#  wait_for:
+#    host: "{{ hostvars[inventory_hostname].ansible_host }}"
+#    port: 9100
+#    timeout: 300
+#  become: no
+#  delegate_to: localhost
 
 - name: Get session data from DVWA
   uri:

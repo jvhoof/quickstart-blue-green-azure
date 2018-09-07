@@ -10,7 +10,7 @@
 ### WAF Getting ready ###
 - name: WAF - Check if login page is ready
   uri: 
-    url: http://{{ hostvars[inventory_hostname].ansible_host }}:8000/cgi-mod/index.cgi
+    url: http://{{ hostvars[inventory_hostname].ansible_host }}:{{ hostvars[inventory_hostname].ansible_port }}/cgi-mod/index.cgi
     return_content: true
     timeout: 300
   register: response
