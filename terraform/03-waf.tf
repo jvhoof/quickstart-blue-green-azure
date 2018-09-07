@@ -164,7 +164,7 @@ data "template_file" "waf_ansible" {
 
   vars {
     name      = "${var.PREFIX}-${var.DEPLOYMENTCOLOR}-VM-WAF-${count.index}"
-    arguments = "ansible_host=${element(var.waf_ip_addresses[var.DEPLOYMENTCOLOR], count.index)} ansible_connection=local gather_facts=no waf_license_token=${element(var.WAF_LICENSE_TOKENS, count.index)} "
+    arguments = "ansible_host=${data.azurerm_public_ip.waflbpip.ip_address} ansible_port=${count.index + 8000} ansible_connection=local gather_facts=no"
   }
 
   depends_on = ["azurerm_virtual_machine.wafvm"]

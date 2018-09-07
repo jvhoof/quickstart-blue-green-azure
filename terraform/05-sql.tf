@@ -56,10 +56,10 @@ resource "azurerm_virtual_machine" "sqlvm" {
   os_profile_linux_config {
     disable_password_authentication = false
 
-#    ssh_keys {
-#      path     = "/home/azureuser/.ssh/authorized_keys"
-#      key_data = "${var.SSH_KEY_DATA}"
-#    }
+    ssh_keys {
+      path     = "/home/azureuser/.ssh/authorized_keys"
+      key_data = "${var.SSH_KEY_DATA}"
+    }
   }
 
   tags {
@@ -73,7 +73,7 @@ data "template_file" "sql_ansible" {
 
   vars {
     name      = "${var.PREFIX}-${var.DEPLOYMENTCOLOR}-VM-SQL"
-    arguments = "ansible_host=${element(split(",",azurerm_network_interface.sqlifc.private_ip_address),count.index)} gather_facts=no"
+    arguments = "ansible_host=${data.azurerm_public_ip.cgfpipa.ip_address} ansible_port=8445 gather_facts=no"
   }
 
   depends_on = ["azurerm_virtual_machine.sqlvm"]

@@ -20,13 +20,13 @@
     volumes:
       - /data/portal:/var/www/html:ro
 
-- name: Wait 300 seconds for port 9200 to become open on the host
-  wait_for:
-    host: "{{ hostvars[inventory_hostname].ansible_host }}"
-    port: 9000
-    timeout: 300
-  become: no
-  delegate_to: localhost
+#- name: Wait 300 seconds for port 9200 to become open on the host
+#  wait_for:
+#    host: "{{ hostvars[inventory_hostname].ansible_host }}"
+#    port: 9000
+#    timeout: 300
+#  become: no
+#  delegate_to: localhost
 
 # Create configuration file for portal
 - name: Create configuration for portal

@@ -20,13 +20,13 @@
     volumes:
       - /data/colors/html/blue:/var/www/html:ro
 
-- name: Wait 300 seconds for port 9300 to become open on the host
-  wait_for:
-    host: "{{ hostvars[inventory_hostname].ansible_host }}"
-    port: 9300
-    timeout: 300
-  become: no
-  delegate_to: localhost
+#- name: Wait 300 seconds for port 9300 to become open on the host
+#  wait_for:
+#    host: "{{ hostvars[inventory_hostname].ansible_host }}"
+#    port: 9300
+#    timeout: 300
+#  become: no
+#  delegate_to: localhost
 
 - name: Color-green
   docker_container:
@@ -39,13 +39,13 @@
     volumes:
       - /data/colors/html/green:/var/www/html:ro
 
-- name: Wait 300 seconds for port 9400 to become open on the host
-  wait_for:
-    host: "{{ hostvars[inventory_hostname].ansible_host }}"
-    port: 9400
-    timeout: 300
-  become: no
-  delegate_to: localhost
+#- name: Wait 300 seconds for port 9400 to become open on the host
+#  wait_for:
+#    host: "{{ hostvars[inventory_hostname].ansible_host }}"
+#    port: 9400
+#    timeout: 300
+#  become: no
+#  delegate_to: localhost
 
 - name: Color-pink
   docker_container:
@@ -58,13 +58,13 @@
     volumes:
       - /data/colors/html/pink:/var/www/html:ro
 
-- name: Wait 300 seconds for port 9500 to become open on the host
-  wait_for:
-    host: "{{ hostvars[inventory_hostname].ansible_host }}"
-    port: 9500
-    timeout: 300
-  become: no
-  delegate_to: localhost
+#- name: Wait 300 seconds for port 9500 to become open on the host
+#  wait_for:
+#    host: "{{ hostvars[inventory_hostname].ansible_host }}"
+#    port: 9500
+#    timeout: 300
+#  become: no
+#  delegate_to: localhost
 
 # Create database configuration file for blue
 - name: Create database configuration for blue

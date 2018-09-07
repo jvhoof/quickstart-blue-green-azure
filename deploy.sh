@@ -38,6 +38,14 @@ while getopts "a:b:c:d:p:s:v:w:x:y:z:" option; do
     esac
 done
 
+# Generate SSH key
+if [ ! -f output/ssh_key ]; then
+    ssh-keygen -q -t ecdsa -f output/ssh_key -C "" -N ""
+fi
+SSH_KEY_DATA=`cat output/ssh_key.pub`
+DOWNLOADSECUREFILE1_SECUREFILEPATH="output/ssh_key"
+
+
 echo ""
 echo "==> Deployment of the [$DEPLOYMENTCOLOR] environment"
 echo ""
@@ -65,6 +73,7 @@ echo ""
 terraform plan --out "$PLAN" \
                 -var "PASSWORD=$PASSWORD" \
                 -var "DB_PASSWORD=$DB_PASSWORD" \
+                -var "SSH_KEY_DATA=$SSH_KEY_DATA" \
                 -var "AZURE_CLIENT_ID=$AZURE_CLIENT_ID" \
                 -var "AZURE_CLIENT_SECRET=$AZURE_CLIENT_SECRET" \
                 -var "AZURE_SUBSCRIPTION_ID=$AZURE_SUBSCRIPTION_ID" \
@@ -101,7 +110,7 @@ cd ../
 echo ""
 echo "==> Ansible configuration"
 echo ""
-#ansible-playbook ansible/all.yml $ANSIBLEOPTS -i "$ANSIBLEINVENTORY" 
+ansible-playbook ansible/all.yml $ANSIBLEOPTS -i "$ANSIBLEINVENTORY" 
 
 echo ""
 echo "==> Connectivity verification $DEPLOYMENTCOLOR environment"

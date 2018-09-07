@@ -3,7 +3,7 @@
   wait_for:
     host: "{{ hostvars[inventory_hostname].ansible_host }}"
     search_regex: OpenSSH
-    port: 22
+    port: "{{ hostvars[inventory_hostname].ansible_port }}"
     timeout: 900
   become: no
   delegate_to: localhost
@@ -37,7 +37,7 @@
     host: "{{ hostvars[inventory_hostname].ansible_host }}"
     search_regex: OpenSSH
     delay: 5
-    port: 22
+    port: "{{ hostvars[inventory_hostname].ansible_port }}"
     timeout: 600
   become: no
   delegate_to: localhost
