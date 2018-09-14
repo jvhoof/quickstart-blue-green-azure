@@ -81,12 +81,13 @@ then
     read passwd         # read the password
     stty $stty_orig     # restore terminal setting.
 else
-    DB_PASSWORD="$DEPLOY_PASSWORD"
-    PASSWORD="$DEPLOY_PASSWORD"
+    passwd="$DEPLOY_PASSWORD"
     echo ""
     echo "--> Using password found in env variable DEPLOY_PASSWORD ..."
     echo ""
 fi
+PASSWORD="$passwd"
+DB_PASSWORD="$passwd"
 
 # Generate SSH key
 if [ ! -f output/ssh_key ]; then
