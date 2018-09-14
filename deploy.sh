@@ -22,28 +22,79 @@ ANSIBLEWEBINVENTORY="$ANSIBLEINVENTORYDIR/web"
 ANSIBLESQLINVENTORY="$ANSIBLEINVENTORYDIR/sql"
 ANSIBLEWAFINVENTORY="$ANSIBLEWAFINVENTORYDIR/waf"
 
-while getopts "a:b:c:d:p:s:v:w:x:y:z:" option; do
+while getopts "bg" option; do
     case "${option}" in
-        a) ANSIBLEOPTS="$OPTARG" ;;
-        b) BACKEND_ARM_ACCESS_KEY="$OPTARG" ;;
-        c) CCSECRET="$OPTARG" ;;
-        d) DB_PASSWORD="$OPTARG" ;;
-        p) PASSWORD="$OPTARG" ;;
-        s) SSH_KEY_DATA="$OPTARG" ;;
-        v) AZURE_CLIENT_ID="$OPTARG" ;;
-        w) AZURE_CLIENT_SECRET="$OPTARG" ;;
-        x) AZURE_SUBSCRIPTION_ID="$OPTARG" ;;
-        y) AZURE_TENANT_ID="$OPTARG" ;;
-        z) DEPLOYMENTCOLOR="$OPTARG"; ;;
+        b) DEPLOYMENTCOLOR="blue" ;;
+        g) DEPLOYMENTCOLOR="green" ;;
+        \?)
+            echo "Invalid option: -$OPTARG" >&2
+            exit 1
+            ;;
     esac
 done
 
+if [ -z "$DEPLOY_LOCATION" ]
+then
+    # Input location 
+    echo -n "Enter location (e.g. eastus2): "
+    stty_orig=`stty -g` # save original terminal setting.
+    read location         # read the location
+    stty $stty_orig     # restore terminal setting.
+    if [ -z "$location" ] 
+    then
+        location="eastus2"
+    fi
+else
+    location="$DEPLOY_LOCATION"
+fi
+TF_VAR_LOCATION="$location"
+echo ""
+echo "--> Deployment in $location location ..."
+echo ""
+
+if [ -z "$DEPLOY_PREFIX" ]
+then
+    # Input prefix 
+    echo -n "Enter prefix: "
+    stty_orig=`stty -g` # save original terminal setting.
+    read prefix         # read the prefix
+    stty $stty_orig     # restore terminal setting.
+    if [ -z "$prefix" ] 
+    then
+        prefix="CUDA"
+    fi
+else
+    prefix="$DEPLOY_PREFIX"
+fi
+TF_VAR_PREFIX="$prefix"
+echo ""
+echo "--> Using prefix $prefix for all resources ..."
+echo ""
+rg_cgf="$prefix-RG"
+
+if [ -z "$DEPLOY_PASSWORD" ]
+then
+    # Input password 
+    echo -n "Enter password: "
+    stty_orig=`stty -g` # save original terminal setting.
+    stty -echo          # turn-off echoing.
+    read passwd         # read the password
+    stty $stty_orig     # restore terminal setting.
+else
+    DB_PASSWORD="$DEPLOY_PASSWORD"
+    PASSWORD="$DEPLOY_PASSWORD"
+    echo ""
+    echo "--> Using password found in env variable DEPLOY_PASSWORD ..."
+    echo ""
+fi
+
 # Generate SSH key
 if [ ! -f output/ssh_key ]; then
-    ssh-keygen -q -t ecdsa -f output/ssh_key -C "" -N ""
+    ssh-keygen -q -t rsa -b 2048 -f output/ssh_key -C "" -N ""
 fi
 SSH_KEY_DATA=`cat output/ssh_key.pub`
 DOWNLOADSECUREFILE1_SECUREFILEPATH="output/ssh_key"
+DOWNLOADSECUREFILE2_SECUREFILEPATH="resources/selfsigned.pkcs12"
 
 
 echo ""
