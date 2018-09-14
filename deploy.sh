@@ -47,7 +47,7 @@ then
 else
     location="$DEPLOY_LOCATION"
 fi
-TF_VAR_LOCATION="$location"
+export TF_VAR_LOCATION="$location"
 echo ""
 echo "--> Deployment in $location location ..."
 echo ""
@@ -66,7 +66,7 @@ then
 else
     prefix="$DEPLOY_PREFIX"
 fi
-TF_VAR_PREFIX="$prefix"
+export TF_VAR_PREFIX="$prefix"
 echo ""
 echo "--> Using prefix $prefix for all resources ..."
 echo ""
