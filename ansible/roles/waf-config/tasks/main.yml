@@ -65,9 +65,8 @@
     request_url: "{{ waf_base_url }}"
     request_path: "/restapi/v3/certificates"
     request_name: "QuickstartCert"
-    request_body: '{"name":"{{ waf_service_http_name }}", "ip-address":"{{ waf_service_http_ip_address }}", "port":"{{ waf_service_http_port }}", "type":"Redirect Service", "address-version":"ipv4", "vsite":"default", "group":"default"}'
     request_body: '{"allow_private_key_export": "Yes", "city": "Campbell", "common_name": "quickstart.cudalab.eu", "country_code": "US", "curve_type": "secp256r1", "key_size": "1024", "key_type": "rsa", "name": "QuickstartCert", "organization_name": "Barracuda Quickstart Demo", "san_certificate": [ "DNS:quickstart.cudalab.eu" ], "state": "CA" }'
-  when: ( sslcert is failed ) and ( inventory_hostname.find("VM-WAF-0") != -1 )
+  when: inventory_hostname.find("VM-WAF-0") != -1
 
 #- name: "WAF - Upload certificate"
 #  when: ( sslcert is failed ) and ( inventory_hostname.find("VM-WAF-0") != -1 )

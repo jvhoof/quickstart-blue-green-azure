@@ -86,11 +86,16 @@ PASSWORD="$passwd"
 DB_PASSWORD="$passwd"
 
 # Generate SSH key
+echo ""
+echo "==> Generate and verify SSH key location and permissions"
+echo ""
 if [ ! -f output/ssh_key ]; then
     ssh-keygen -q -t rsa -b 2048 -f output/ssh_key -C "" -N ""
 fi
 SSH_KEY_DATA=`cat output/ssh_key.pub`
 DOWNLOADSECUREFILE1_SECUREFILEPATH="output/ssh_key"
+chmod 700 `dirname $DOWNLOADSECUREFILE1_SECUREFILEPATH`
+chmod 600 $DOWNLOADSECUREFILE1_SECUREFILEPATH
 
 echo ""
 echo "==> Deployment of the [$DEPLOYMENTCOLOR] environment"
