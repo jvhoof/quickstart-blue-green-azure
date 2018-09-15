@@ -59,7 +59,7 @@
 #  when: inventory_hostname != ansible_play_hosts[0]
 
 ### WAF SSL Certificate
-- include_tasks: waf-create-edit-item.yml
+- include_tasks: waf-create-item.yml
   vars:
     request_comment: "Create self signed certificate"
     request_url: "{{ waf_base_url }}"
