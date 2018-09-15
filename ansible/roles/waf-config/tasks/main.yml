@@ -74,22 +74,33 @@
 - debug:
     msg: "{{sslcert}}"
 
-- name: "WAF - Upload certificate"
+### WAF SSL Certificate
+- include_tasks: waf-create-edit-item.yml
   when: ( sslcert is failed ) and ( inventory_hostname.find("VM-WAF-0") != -1 )
-#  when: ( sslcert is failed ) 
-  shell: 'curl  -X "POST" "{{ waf_base_url }}/restapi/v3/certificates?upload=signed" \
-                -H "accept: application/json" -u "{{ waf_token.json.token }}:" \
-                -H "Content-Type: multipart/form-data" \
-                -F "name={{ waf_certificate_name }}" \
-                -F "type=pkcs12" \
-                -F "key_type=rsa" \
-                -F "signed_certificate=@{{ waf_certificate_location }};type=application/x-pkcs12" \
-                -F "assign_associated_key=no" \
-                -F "allow_private_key_export=Yes" \
-                -F "password={{ waf_certificate_password }}"'
-  register: curl
-- debug:
-    msg: "{{curl}}"
+  vars:
+    request_comment: "Create self signed certificate"
+    request_url: "{{ waf_base_url }}"
+    request_path: "/restapi/v3/certificates"
+    request_name: "{{ waf_service_http_name }}"
+    request_body: '{"name":"{{ waf_service_http_name }}", "ip-address":"{{ waf_service_http_ip_address }}", "port":"{{ waf_service_http_port }}", "type":"Redirect Service", "address-version":"ipv4", "vsite":"default", "group":"default"}'
+    request_body: '{"allow_private_key_export": "Yes", "city": "Campbell", "common_name": "quickstart.cudalab.eu", "country_code": "US", "curve_type": "secp256r1", "key_size": "1024", "key_type": "rsa", "name": "QuickstartCert", "organization_name": "Barracuda Quickstart Demo", "san_certificate": [ "DNS:quickstart.cudalab.eu" ], "state": "CA" }'
+  when: inventory_hostname.find("VM-WAF-0") != -1
+
+#- name: "WAF - Upload certificate"
+#  when: ( sslcert is failed ) and ( inventory_hostname.find("VM-WAF-0") != -1 )
+#  shell: 'curl  -X "POST" "{{ waf_base_url }}/restapi/v3/certificates?upload=signed" \
+#                -H "accept: application/json" -u "{{ waf_token.json.token }}:" \
+#                -H "Content-Type: multipart/form-data" \
+#                -F "name={{ waf_certificate_name }}" \
+#                -F "type=pkcs12" \
+#                -F "key_type=rsa" \
+#                -F "signed_certificate=@{{ waf_certificate_location }};type=application/x-pkcs12" \
+#                -F "assign_associated_key=no" \
+#                -F "allow_private_key_export=Yes" \
+#                -F "password={{ waf_certificate_password }}"'
+#  register: curl
+#- debug:
+#    msg: "{{curl}}"
 
 - name: WAF - Checking if Barracuda WAF Login page is ready
   when: ( waf_reboot == true )

@@ -26,7 +26,7 @@
   when: ( waf_reboot == true )
   wait_for_connection:
     port: 8000
-    delay: 90
+    delay: 20
 
 - name: WAF - Checking if Barracuda WAF Login page is ready
   when: ( waf_reboot == true )

@@ -16,11 +16,7 @@ set -e
 PLAN="terraform.tfplan"
 PLANATM="terraform-atm.tfplan"
 ANSIBLEINVENTORYDIR="ansible/inventory"
-ANSIBLEWAFINVENTORYDIR="ansible-waf/inventory"
 ANSIBLEINVENTORY="$ANSIBLEINVENTORYDIR/all"
-ANSIBLEWEBINVENTORY="$ANSIBLEINVENTORYDIR/web"
-ANSIBLESQLINVENTORY="$ANSIBLEINVENTORYDIR/sql"
-ANSIBLEWAFINVENTORY="$ANSIBLEWAFINVENTORYDIR/waf"
 
 while getopts "bg" option; do
     case "${option}" in
@@ -95,8 +91,6 @@ if [ ! -f output/ssh_key ]; then
 fi
 SSH_KEY_DATA=`cat output/ssh_key.pub`
 DOWNLOADSECUREFILE1_SECUREFILEPATH="output/ssh_key"
-DOWNLOADSECUREFILE2_SECUREFILEPATH="resources/selfsigned.pkcs12"
-
 
 echo ""
 echo "==> Deployment of the [$DEPLOYMENTCOLOR] environment"
@@ -138,15 +132,9 @@ echo ""
 terraform apply "$PLAN"
 
 echo ""
-echo "==> Terraform graph"
-echo ""
-terraform graph | dot -Tsvg > "../output/graph-$DEPLOYMENTCOLOR.svg"
-
-echo ""
 echo "==> Creating inventory directories for Ansible"
 echo ""
 mkdir -p "../$ANSIBLEINVENTORYDIR"
-mkdir -p "../$ANSIBLEWAFINVENTORYDIR"
 
 echo ""
 echo "==> Terraform output to Ansible inventory"
@@ -162,7 +150,7 @@ cd ../
 echo ""
 echo "==> Ansible configuration"
 echo ""
-ansible-playbook ansible/all.yml $ANSIBLEOPTS -i "$ANSIBLEINVENTORY" 
+ansible-playbook ansible/all.yml -i "$ANSIBLEINVENTORY" 
 
 echo ""
 echo "==> Connectivity verification $DEPLOYMENTCOLOR environment"
