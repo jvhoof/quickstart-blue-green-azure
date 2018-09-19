@@ -64,7 +64,7 @@
     request_comment: "Create self signed certificate"
     request_url: "{{ waf_base_url }}"
     request_path: "/restapi/v3/certificates"
-    request_name: "QuickstartCert"
+    request_name: "{{ waf_certificate_name }}"
     request_body: '{"allow_private_key_export": "Yes", "city": "Campbell", "common_name": "quickstart.cudalab.eu", "country_code": "US", "curve_type": "secp256r1", "key_size": "1024", "key_type": "rsa", "name": "QuickstartCert", "organization_name": "Barracuda Quickstart Demo", "san_certificate": [ "DNS:quickstart.cudalab.eu" ], "state": "CA" }'
   when: inventory_hostname.find("VM-WAF-0") != -1
 
@@ -129,72 +129,6 @@
   when: inventory_hostname.find("VM-WAF-0") != -1
 #  when: inventory_hostname == ansible_play_hosts[0]
 
-#### WAF Create PORTAL content rule ###
-- include_tasks: waf-create-edit-item.yml
-  vars:
-    request_comment: "Create PORTAL content rule"
-    request_url: "{{ waf_base_url }}"
-    request_path: "/restapi/v3/services/{{ waf_service_name }}/content-rules"
-    request_name: "{{ waf_content_rule_portal_name }}"
-    request_body: '{ "access-log": "Enable", "url-match": "/*", "status": "On", "mode": "Active", "name": "{{ waf_content_rule_portal_name }}", "comments": "{{ waf_content_rule_portal_comment }}", "web-firewall-policy": "default", "app-id": "{{ waf_service_name }}", "host-match": "{{ waf_content_rule_portal_hostname }}" }'
-  when: inventory_hostname.find("VM-WAF-0") != -1
-#  when: inventory_hostname == ansible_play_hosts[0]
-
-#### WAF Create PORTAL content rule server ###
-- include_tasks: waf-create-edit-item.yml
-  vars:
-    request_comment: "Create PORTAL content rule server"
-    request_url: "{{ waf_base_url }}"
-    request_path: "/restapi/v3/services/{{ waf_service_name }}/content-rules/{{ waf_content_rule_portal_name }}/content-rule-servers"
-    request_name: "{{ waf_content_rule_portal_server_name }}"
-    request_body: '{ "backup-server": "No", "status": "In Service", "name": "{{ waf_content_rule_portal_server_name }}", "port": {{ waf_content_rule_portal_port }}, "identifier": "IP Address", "weight": 1, "ip-address": "{{ waf_content_rule_portal_ip_address }}" }'
-  when: inventory_hostname.find("VM-WAF-0") != -1
-#  when: inventory_hostname == ansible_play_hosts[0]
-
-#### WAF Create BADSTORE content rule ###
-- include_tasks: waf-create-edit-item.yml
-  vars:
-    request_comment: "Create BADSTORE content rule"
-    request_url: "{{ waf_base_url }}"
-    request_path: "/restapi/v3/services/{{ waf_service_name }}/content-rules"
-    request_name: "{{ waf_content_rule_badstore_name }}"
-    request_body: '{ "access-log": "Enable", "url-match": "/*", "status": "On", "mode": "Active", "name": "{{ waf_content_rule_badstore_name }}", "comments": "{{ waf_content_rule_badstore_comment }}", "web-firewall-policy": "default", "app-id": "{{ waf_service_name }}", "host-match": "{{ waf_content_rule_badstore_hostname }}" }'
-  when: inventory_hostname.find("VM-WAF-0") != -1
-#  when: inventory_hostname == ansible_play_hosts[0]
-
-#### WAF Create BADSTORE content rule server ###
-- include_tasks: waf-create-edit-item.yml
-  vars:
-    request_comment: "Create BADSTORE content rule server"
-    request_url: "{{ waf_base_url }}"
-    request_path: "/restapi/v3/services/{{ waf_service_name }}/content-rules/{{ waf_content_rule_badstore_name }}/content-rule-servers"
-    request_name: "{{ waf_content_rule_badstore_server_name }}"
-    request_body: '{ "backup-server": "No", "status": "In Service", "name": "{{ waf_content_rule_badstore_server_name }}", "port": {{ waf_content_rule_badstore_port }}, "identifier": "IP Address", "weight": 1, "ip-address": "{{ waf_content_rule_badstore_ip_address }}" }'
-  when: inventory_hostname.find("VM-WAF-0") != -1
-#  when: inventory_hostname == ansible_play_hosts[0]
-
-#### WAF Create DVWA content rule ###
-- include_tasks: waf-create-edit-item.yml
-  vars:
-    request_comment: "Create DVWA content rule"
-    request_url: "{{ waf_base_url }}"
-    request_path: "/restapi/v3/services/{{ waf_service_name }}/content-rules"
-    request_name: "{{ waf_content_rule_dvwa_name }}"
-    request_body: '{ "access-log": "Enable", "url-match": "/*", "status": "On", "mode": "Active", "name": "{{ waf_content_rule_dvwa_name }}", "comments": "{{ waf_content_rule_dvwa_comment }}", "web-firewall-policy": "default", "app-id": "{{ waf_service_name }}", "host-match": "{{ waf_content_rule_dvwa_hostname }}" }'
-  when: inventory_hostname.find("VM-WAF-0") != -1
-#  when: inventory_hostname == ansible_play_hosts[0]
-
-#### WAF Create DVWA content rule server ###
-- include_tasks: waf-create-edit-item.yml
-  vars:
-    request_comment: "Create DVWA content rule server"
-    request_url: "{{ waf_base_url }}"
-    request_path: "/restapi/v3/services/{{ waf_service_name }}/content-rules/{{ waf_content_rule_dvwa_name }}/content-rule-servers"
-    request_name: "{{ waf_content_rule_dvwa_server_name }}"
-    request_body: '{ "backup-server": "No", "status": "In Service", "name": "{{ waf_content_rule_dvwa_server_name }}", "port": {{ waf_content_rule_dvwa_port }}, "identifier": "IP Address", "weight": 1, "ip-address": "{{ waf_content_rule_dvwa_ip_address }}" }'
-  when: inventory_hostname.find("VM-WAF-0") != -1
-#  when: inventory_hostname == ansible_play_hosts[0]
-
 #### WAF Create COLORS content rule ###
 - include_tasks: waf-create-edit-item.yml
   vars:
@@ -202,7 +136,7 @@
     request_url: "{{ waf_base_url }}"
     request_path: "/restapi/v3/services/{{ waf_service_name }}/content-rules"
     request_name: "{{ waf_content_rule_colors_name }}"
-    request_body: '{ "access-log": "Enable", "url-match": "/*", "status": "On", "mode": "Active", "name": "{{ waf_content_rule_colors_name }}", "comments": "{{ waf_content_rule_colors_comment }}", "web-firewall-policy": "default", "app-id": "{{ waf_service_name }}", "host-match": "{{ waf_content_rule_colors_hostname }}" }'
+    request_body: '{ "access-log": "Enable", "url-match": "/*", "status": "On", "mode": "Active", "name": "{{ waf_content_rule_colors_name }}", "comments": "{{ waf_content_rule_colors_comment }}", "web-firewall-policy": "default", "app-id": "{{ waf_service_name }}", "host-match": "*" }'
   when: inventory_hostname.find("VM-WAF-0") != -1
 #  when: inventory_hostname == ansible_play_hosts[0]
 
