@@ -15,13 +15,7 @@
   strategy: free
   tasks:
   - include_role: 
-      name: badstore
-    when:  "'web' in group_names"
-  - include_role: 
       name: colors
-    when:  "'web' in group_names"
-  - include_role: 
-      name: portal
     when:  "'web' in group_names"
   - include_role: 
       name: sql
