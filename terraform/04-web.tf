@@ -73,7 +73,7 @@ data "template_file" "web_ansible" {
 
   vars {
     name      = "${var.PREFIX}-${var.DEPLOYMENTCOLOR}-VM-WEB"
-    arguments = "ansible_host=${data.azurerm_public_ip.cgfpipa.ip_address} ansible_port=8444 gather_facts=no"
+    arguments = "ansible_host=${data.azurerm_public_ip.cgfpipa.ip_address} ansible_port=8444 gather_facts=no internal_host=${azurerm_network_interface.sqlifc.private_ip_address}"
   }
 
   depends_on = ["azurerm_virtual_machine.webvm"]

@@ -5,7 +5,7 @@ echo "
 # |_) _  __ __ _  _     _| _ 
 # |_)(_| |  | (_|(_ |_|(_|(_|
 #
-# Deployment of CUDALAB EU configuration in Microsoft Azure using Terraform and Ansible
+# Quickstart Blue/Green deployment in Microsoft Azure using Terraform and Ansible
 #
 ##############################################################################################################
 "
@@ -76,6 +76,7 @@ then
     stty -echo          # turn-off echoing.
     read passwd         # read the password
     stty $stty_orig     # restore terminal setting.
+    echo ""
 else
     passwd="$DEPLOY_PASSWORD"
     echo ""
