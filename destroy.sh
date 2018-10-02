@@ -56,5 +56,9 @@ echo ""
 echo "==> Terraform destroy"
 echo ""
 terraform destroy -var "DEPLOYMENTCOLOR=$DEPLOYMENTCOLOR" \
-                  -state $STATE
+                  -var "PREFIX=x" \
+                  -var "PASSWORD=x" \
+                  -var "DB_PASSWORD=x" \
+                  -var "SSH_KEY_DATA=x" \
+                  -var "LOCATION=x" \
                   -auto-approve 
