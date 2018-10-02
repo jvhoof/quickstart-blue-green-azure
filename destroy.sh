@@ -13,19 +13,28 @@ echo "
 # Stop running when command returns error
 set -e
 
-#SECRET="/ssh/secrets.tfvars"
-#STATE="terraform.tfstate"
+STATE="terraform.tfstate"
 
-while getopts "b:d:v:w:x:y:z:" option; do
+while getopts "bg" option; do
     case "${option}" in
-        d) DB_PASSWORD="$OPTARG" ;;
-        v) AZURE_CLIENT_ID="$OPTARG" ;;
-        w) AZURE_CLIENT_SECRET="$OPTARG" ;;
-        x) AZURE_SUBSCRIPTION_ID="$OPTARG" ;;
-        y) AZURE_TENANT_ID="$OPTARG" ;;
-        z) DEPLOYMENTCOLOR="$OPTARG" ;;
+        b) DEPLOYMENTCOLOR="blue" ;;
+        g) DEPLOYMENTCOLOR="green" ;;
+        \?)
+            echo "Invalid option: -$OPTARG" >&2
+            exit 1
+            ;;
     esac
 done
+
+# Generate SSH key
+echo ""
+echo "==> Generate and verify SSH key location and permissions"
+echo ""
+SSH_KEY_DATA=`cat output/ssh_key.pub`
+DOWNLOADSECUREFILE1_SECUREFILEPATH="output/ssh_key"
+chmod 700 `dirname $DOWNLOADSECUREFILE1_SECUREFILEPATH`
+chmod 600 $DOWNLOADSECUREFILE1_SECUREFILEPATH
+export DOWNLOADSECUREFILE1_SECUREFILEPATH
 
 cd terraform/
 echo ""
@@ -46,12 +55,6 @@ terraform workspace select $DEPLOYMENTCOLOR || terraform workspace new $DEPLOYME
 echo ""
 echo "==> Terraform destroy"
 echo ""
-terraform destroy -var "PASSWORD=$PASSWORD" \
-                  -var "PASSWORD=$PASSWORD" \
-                  -var "DB_PASSWORD=$DB_PASSWORD" \
-                  -var "AZURE_CLIENT_ID=$AZURE_CLIENT_ID" \
-                  -var "AZURE_CLIENT_SECRET=$AZURE_CLIENT_SECRET" \
-                  -var "AZURE_SUBSCRIPTION_ID=$AZURE_SUBSCRIPTION_ID" \
-                  -var "AZURE_TENANT_ID=$AZURE_TENANT_ID" \
-                  -var "DEPLOYMENTCOLOR=$DEPLOYMENTCOLOR" \
+terraform destroy -var "DEPLOYMENTCOLOR=$DEPLOYMENTCOLOR" \
+                  -state $STATE
                   -auto-approve 
