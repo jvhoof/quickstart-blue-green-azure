@@ -195,3 +195,33 @@ echo ""
 echo "==> Terraform apply"
 echo ""
 #terraform apply "$PLANATM"
+cd ../
+
+#result=$? 
+#if [[ $result != 0 ]]; 
+#then 
+#    echo "--> Deployment failed ..."
+#    exit $rc; 
+#else 
+echo "
+##############################################################################################################
+#  _                         
+# |_) _  __ __ _  _     _| _ 
+# |_)(_| |  | (_|(_ |_|(_|(_|
+#
+# Thank you for deploying the Barracuda Quickstart Blue/Green deployment in Microsoft Azure
+#
+# Campus website:
+# https://campus.barracuda.com/product/cloudgenfirewall/doc/73719655/microsoft-azure-deployment/
+#
+# Connect via email:
+# azure_support@barracuda.com
+#
+##############################################################################################################
+
+ Deployment information:
+
+"
+cat "../output/$SUMMARY"
+echo "##############################################################################################################"
+#fi
