@@ -8,7 +8,7 @@
     - role: common
     - role: docker
 
-- hosts: web:sql
+- hosts: web
   gather_facts: no
   become: yes
   become_method: sudo
@@ -16,10 +16,13 @@
   tasks:
   - include_role: 
       name: colors
-    when:  "'web' in group_names"
+
+- hosts: sql
+  gather_facts: no
+  strategy: free
+  tasks:
   - include_role: 
       name: sql
-    when: "'sql' in group_names"
 
 - hosts: waf-blue:waf-green
   gather_facts: no
