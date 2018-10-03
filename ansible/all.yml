@@ -19,6 +19,8 @@
 
 - hosts: sql
   gather_facts: no
+  become: yes
+  become_method: sudo
   strategy: free
   tasks:
   - include_role: 
