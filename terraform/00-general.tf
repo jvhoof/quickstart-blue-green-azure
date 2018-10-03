@@ -159,8 +159,8 @@ variable "cgf_vmsize" {
   description = ""
 
   default = {
-    "blue"  = "Standard_DS1"
-    "green" = "Standard_DS1"
+    "blue"  = "Standard_DS1_v2"
+    "green" = "Standard_DS1_v2"
   }
 }
 
@@ -199,8 +199,8 @@ variable "waf_vmsize" {
   description = ""
 
   default = {
-    "blue"  = "Standard_DS1"
-    "green" = "Standard_DS1"
+    "blue"  = "Standard_DS1_v2"
+    "green" = "Standard_DS1_v2"
   }
 }
 
