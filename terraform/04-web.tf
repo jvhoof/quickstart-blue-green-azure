@@ -31,7 +31,7 @@ resource "azurerm_virtual_machine" "webvm" {
   location              = "${azurerm_resource_group.resourcegroupweb.location}"
   resource_group_name   = "${azurerm_resource_group.resourcegroupweb.name}"
   network_interface_ids = ["${azurerm_network_interface.webifc.id}"]
-  vm_size               = "Standard_DS1"
+  vm_size               = "Standard_DS1_v2"
 
   storage_image_reference {
     publisher = "Canonical"
