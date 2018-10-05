@@ -86,6 +86,28 @@ fi
 PASSWORD="$passwd"
 DB_PASSWORD="$passwd"
 
+if [ ! -f $PLANATM ]; then
+    echo "
+##############################################################################################################
+ No plan file found for Traffic Manager. Assuming a new deployment.
+ Please select a unique DNS name for the traffic manager setup. 
+ The DNS name will be in the trafficmanager.net domain.
+"
+    echo -n " Enter unique DNS name: "
+    stty_orig=`stty -g` # save original terminal setting.
+    read dnsname         # read the prefix
+    stty $stty_orig     # restore terminal setting.
+    echo ""
+    export TF_VAR_TDSNAME="$dnsname"
+    echo ""
+    echo "--> Using Azure Traffic Manager dns name [$dnsname.trafficmanager.net] ..."
+    echo ""
+
+    echo "
+##############################################################################################################
+"
+fi
+
 # Generate SSH key
 echo ""
 echo "==> Generate and verify SSH key location and permissions"
@@ -184,28 +206,6 @@ echo "==> Terraform workspace [trafficmanager]"
 echo ""
 terraform workspace list
 terraform workspace select "trafficmanager" || terraform workspace new "trafficmanager"
-
-if [ ! -f $PLANATM ]; then
-    echo "
-##############################################################################################################
- No plan file found for Traffic Manager. Assuming a new deployment.
- Please select a unique DNS name for the traffic manager setup. 
- The DNS name will be in the trafficmanager.net domain.
-"
-    echo -n " Enter unique DNS name: "
-    stty_orig=`stty -g` # save original terminal setting.
-    read dnsname         # read the prefix
-    stty $stty_orig     # restore terminal setting.
-    echo ""
-    export TF_VAR_TDSNAME="$dnsname"
-    echo ""
-    echo "--> Using Azure Traffic Manager dns name [$dnsname.trafficmanager.net] ..."
-    echo ""
-
-    echo "
-##############################################################################################################
-"
-fi
 
 echo ""
 echo "==> Terraform plan"
