@@ -23,105 +23,41 @@ Following resources will be created by this deployment per color:
 - Two external Azure Basic Load Balancer, containing either the CGF or WAF virtual machines with a public IP and services for HTTP, HTTPS IPSEC and/or TINA VPN tunnels
 - Azure Traffic Manager to switch from Blue to Green deployment and back
 
-## Launching the Template
+## Deployment
 
-Ideally the deployment of the Blue or Green environments is done using Visual Studio Team Services (VSTS) or another CI/CD tools. In this reference architecture we used VSTS. The deployment is also possible from a CLI that provides the Terraform and Ansible tools. Within Azure this is certainly possible with the Azure Cloud Shell which contains both.
+Deployment of this environment is possible via the Azure Cloud Shell. It is also possible via the a system that has Terraform and Ansible installed like a docker image (jvhoof/cloudgen-essentials). However for this deployment you will need to pass the credentials for Azure via the command line or environment variables. This is done automatically in Azure Cloud Shell. 
 
-The package provides a deploy.sh and destroy.sh scripts which will build or remove the whole setup per color when the correct arguments are supplied as well as the correct environment variables are set. For VSTS you can find the build configuration files in the resources/vsts directory. For CLI we recommand the deployment from the Azure Cloud Shell as this comes pre-installed with the reqiured tools. 
+You can also integrate the deployment of the Blue or Green environments into Azure DevOps or another CI/CD tools. 
 
-For the Barracuda CGF it is also required to have a Barracuda CloudGen Firewall Control Center ready to go. This Control Center 
+The package provides a deploy.sh and destroy.sh scripts which will build or remove the whole setup per color when the correct arguments are supplied as well as the correct environment variables are set. For Azure DevOps the yaml files are provided.
 
-### Checklist - Local deployment
+### Azure CLI
 
-- [Azure Cloud Shell](https://azure.microsoft.com/en-us/features/cloud-shell/)
-- [Barracuda CloudGen Firewall Control Center](https://campus.barracuda.com/product/cloudgenfirewall/doc/73719437/getting-started-control-center-for-microsoft-azure/)
-- [Azure Storage Account for the Terraform state](https://www.terraform.io/docs/backends/types/azurerm.html)
-- [Azure AD Service Principal](https://docs.microsoft.com/en-us/cli/azure/create-an-azure-service-principal-azure-cli?view=azure-cli-latest)
-
-### Checklist - VSTS deployment
-
-- [Visual Studio Team Services](https://visualstudio.microsoft.com/team-services/)
-- [Barracuda CloudGen Firewall Control Center](https://campus.barracuda.com/product/cloudgenfirewall/doc/73719437/getting-started-control-center-for-microsoft-azure/)
-- [Azure Storage Account for the Terraform state](https://www.terraform.io/docs/backends/types/azurerm.html)
-- [Azure AD Service Principal](https://docs.microsoft.com/en-us/cli/azure/create-an-azure-service-principal-azure-cli?view=azure-cli-latest)
-
-## Deployment - Local Deployment
+To deploy via Azure Cloud Shell you can connect via the Azure Portal or directly to [https://shell.azure.com/](https://shell.azure.com/). 
 
 - Start up Azure Cloud Shell from the Azure Portal or go directly to [https://shell.azure.com](https://shell.azure.com/)
-- Download the latest version of the of templates in the persistant clouddrive:
-`cd ~/clouddrive/ && wget -qO- https://github.com/jvhoof/cudalab-blue-green-azure/archive/master.zip | jar xv && cd ~/clouddrive/cudalab-blue-green-azure-master/`
-- Fill in the deploy-local.sh and var-blue.env and/or var-green.env variables
+- Download the latest version of the Quickstart templates in the persistant clouddrive and run the deployment script:
+
+blue: `cd ~/clouddrive/ && wget -qO- https://github.com/jvhoof/quickstart-blue-green-azure/archive/master.zip | jar xv && cd ~/clouddrive/quickstart-blue-green-azure-master/ && ./deploy.sh -b`
+green: `cd ~/clouddrive/ && wget -qO- https://github.com/jvhoof/quickstart-blue-green-azure/archive/master.zip | jar xv && cd ~/clouddrive/quickstart-blue-green-azure-master/ && ./deploy.sh -g`
+
+- Answer the questions asked by the script on the following variables: location, prefix and password.
+
+![Azure Cloud Shell Bash Edition](images/azurecloudshell1.png)
 
 ## deploy.sh and destroy.sh Parameters
 The script requires certain environment variables as well as some arguments. 
 
 | Argument | Deploy | Destroy | Parameter Name | Description
 |---|---|---|---|---
--a | X | - | ANSIBLEOPTS | Extra Ansible deployment options (can be used for debugging (-vvv))
--b | X | X | BACKEND_ARM_ACCESS_KEY | Azure Storage Access Key for the Terraform state file
--c | X | - | CCSECRET | CloudGen Control Center secret for this firewall
--d | X | X | DB_PASSWORD | Database root password
--p | X | - | PASSWORD | Password for all virtual machines
--s | X | - | SSH_KEY_DATA | SSH Public Key to access the linux vm's
--v | X | X | AZURE_CLIENT_ID | Azure application id
--w | X | X | AZURE_CLIENT_SECRET | Azure application id client secret
--x | X | X | AZURE_SUBSCRIPTION_ID | Azure Subscription ID
--y | X | X | AZURE_TENANT_ID | Azure Tenant ID
--z | X | X | DEPLOYMENTCOLOR | Which version do you want to deploy... [blue|green]
+-b | X | X | DEPLOYMENTCOLOR BLUE | Which version do you want to deploy... blue
+-g | X | X | DEPLOYMENTCOLOR GREEN | Which version do you want to deploy... green
 
 ## Environment Variables
 
 | Variable Name | Description
 |---|---
-BACKEND_STORAGE_ACCOUNT_NAME | Azure Storage Account Name for the Terraform state file
-BACKEND_CONTAINER_NAME | Azure Storage Container Name for the Terraform state file
-BACKEND_KEY_COLOR | Azure Storage File Name of the Terraform state file
-BACKEND_KEY_TM | Azure Storage File Name of the Terraform state file for the Traffic Manager deployment
-TF_VAR_CCRANGEID | CloudGen Control Center Range numeric identifier
-TF_VAR_CCCLUSTERNAME | CloudGen Control Center Cluster name identifier
-TF_VAR_CCIPADDRESS | CloudGen Control Center public ip addres reachable on port 806 to fetch the configuration
-TF_VAR_CFGVMNAME | CloudGen Control Center firewall name
 TF_VAR_LOCATION | Azure datacenter location to deploy the environment
 TF_VAR_PREFIX | Prefix text for all deployed resources
 TF_VAR_TMDNSNAME | Azure Traffic Manager DNS name
-TF_VAR_WAF_LICENSE_TOKENS | License tokens for the Barracuda CloudGen WAF BYOL VM's
 DOWNLOADSECUREFILE1_SECUREFILEPATH | The location of the SSH private key used to connect to the backend servers
-DOWNLOADSECUREFILE2_SECUREFILEPATH | The location of the PFX file containing the TLS certificate for the LAB
-
-## Detailed deployment & configuration steps
-
-The deployment using VSTS is done is different steps. From a network point of view the configuration from the Barracuda CloudGen Firewall is pulled from the Firewall Control Center On-Premise. This contains the whole configuration of the CloudGen Firewall and will automatically establish a TINA VPN tunnel between the On-Premise site and the new deployment. All Ansible configuration is done over this TINA VPN tunnel. The public footprint of this deployment is as such reduced to only the public websites. After the deployment the demo websites are available via the URL https://azure.cudalab.eu/
-
-![CGF Detailed Architecture](images/cudalab-blue-green-2.png)
-
-The VSTS configuration is available in the resources/vsts subdirectory. This contains the build and destroy steps and variables. All passwords are in secured variables and need to be filled specific for your environment.
-
-- Queue of a new build
-- Setting of the environment variables
-- Download of the SSH private key onto the VSTS Agent (using the secure file option in VSTS)
-- Download of the TLS certificate onto the VSTS Agent (using the secure file option in VSTS) 
-- Run the deploy.sh script
-  - Terraform: Init of plugins and state file in Azure Storage
-  - Terraform: Select the workspace in the statefile
-  - Terraform: Plan the deployment
-  - Terraform: Apply the deployment
-  - Terraform: Graph output a graph of the deployment components
-  - Terraform: Generate Ansible inventory file
-  - Terraform: Generate summary of the deployed vm's
-  - Ansible: Bootstrap Bararcuda CloudGen WAF
-  - Ansible: Bootstrap and configure docker container host for web services
-  - Ansible: Bootstrap and configure docker container host for database services
-  - Ansible: Configure Barracuda CloudGen WAF
-  - Connectivity check
-  - Terraform Traffic Manager: Init of plugins and state file in Azure Storage
-  - Terraform Traffic Manager: Plan the deployment Traffic Manager change
-  - Terraform Traffic Manager: Apply the deployment traffic Manager change
-- Publish artifact: terraform graph
-- Publish artifact: deployment summary
-- Clean up of the VSTS Agent
-
-![VSTS config](images/cudalab-blue-green-vsts.png)
-
-![VSTS config](images/cudalab-blue-green-vsts-2.png)
-
-![VSTS config](images/cudalab-blue-green-vsts-3.png)
