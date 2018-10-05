@@ -134,6 +134,11 @@ echo ""
 echo "==> Terraform apply"
 echo ""
 terraform apply "$PLAN"
+if [[ $? != 0 ]]; 
+then 
+    echo "--> ERROR: Deployment failed ..."
+    exit $rc; 
+else 
 
 echo ""
 echo "==> Creating inventory directories for Ansible"
@@ -155,7 +160,11 @@ echo ""
 echo "==> Ansible configuration"
 echo ""
 ansible-playbook ansible/all.yml -i "$ANSIBLEINVENTORY" 
-result=$? 
+if [[ $? != 0 ]]; 
+then 
+    echo "--> ERROR: Deployment failed ..."
+    exit $rc; 
+else 
 
 echo ""
 echo "==> Connectivity verification $DEPLOYMENTCOLOR environment"
@@ -163,7 +172,7 @@ echo ""
 
 cd terraform-atm/
 echo ""
-echo "==> Switch to $DEPLOYMENTCOLOR environment"
+echo "==> Azure Traffice Manager deployment"
 echo ""
 echo ""
 echo "==> Terraform init"
@@ -187,13 +196,6 @@ if [ ! -f $PLANATM ]; then
     stty_orig=`stty -g` # save original terminal setting.
     read dnsname         # read the prefix
     stty $stty_orig     # restore terminal setting.
-    dnsresult=`host $dnsname.trafficmanager.net`
-    echo ""
-    if [ $? > 0 ]; then
-        echo "-> ERROR: DNS name already used."
-    else
-        echo "-> DNS name [$dnsname.trafficmanager.net] is unused"
-    fi
     echo ""
     export TF_VAR_TDSNAME="$dnsname"
     echo ""
@@ -240,12 +242,18 @@ echo "
 # Connect via email:
 # azure_support@barracuda.com
 #
+# BEWARE: The state files contain sensitive data like passwords and others. After the demo clean up your 
+#         clouddrive directory.
+#
 ##############################################################################################################
 
  Deployment information:
 
 "
-cat "../output/$SUMMARY"
+cat "output/$SUMMARY"
 echo "
+
+ You can now access the demo website by browsing to https://$dnsname.trafficmanager.net/
+
 ##############################################################################################################"
-#fi
+fi
