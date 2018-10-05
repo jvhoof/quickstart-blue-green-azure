@@ -160,7 +160,7 @@ if [[ $? != 0 ]];
 then 
     echo "--> ERROR: Deployment failed ..."
     exit $rc; 
-else 
+fi 
 
 echo ""
 echo "==> Creating inventory directories for Ansible"
@@ -186,7 +186,7 @@ if [[ $? != 0 ]];
 then 
     echo "--> ERROR: Deployment failed ..."
     exit $rc; 
-else 
+fi 
 
 echo ""
 echo "==> Connectivity verification $DEPLOYMENTCOLOR environment"
