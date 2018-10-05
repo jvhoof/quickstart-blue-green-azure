@@ -63,7 +63,8 @@ resource "azurerm_virtual_machine" "sqlvm" {
   }
 
   tags {
-    environment = "staging"
+    environment = "quickstart"
+    vendor = "Barracuda Networks"
   }
 }
 

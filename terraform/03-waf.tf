@@ -154,7 +154,8 @@ resource "azurerm_virtual_machine" "wafvm" {
   }
 
   tags {
-    environment = "staging"
+    environment = "quickstart"
+    vendor = "Barracuda Networks"
   }
 }
 
