@@ -17,6 +17,8 @@ resource "azurerm_availability_set" "wafavset" {
   location            = "${var.LOCATION}"
   managed             = true
   resource_group_name = "${azurerm_resource_group.resourcegroupwaf.name}"
+  platform_fault_domain_count   = 2
+  platform_update_domain_count  = 5
 }
 
 resource "azurerm_public_ip" "waflbpip" {

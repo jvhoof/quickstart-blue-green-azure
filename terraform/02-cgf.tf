@@ -13,10 +13,12 @@ resource "azurerm_resource_group" "resourcegroupcgf" {
 }
 
 resource "azurerm_availability_set" "cgfavset" {
-  name                = "${var.PREFIX}-${var.DEPLOYMENTCOLOR}-CGF-AVSET"
-  location            = "${var.LOCATION}"
-  managed             = true
-  resource_group_name = "${azurerm_resource_group.resourcegroupcgf.name}"
+  name                          = "${var.PREFIX}-${var.DEPLOYMENTCOLOR}-CGF-AVSET"
+  location                      = "${var.LOCATION}"
+  managed                       = true
+  resource_group_name           = "${azurerm_resource_group.resourcegroupcgf.name}"
+  platform_fault_domain_count   = 2
+  platform_update_domain_count  = 5
 }
 
 resource "azurerm_public_ip" "cgflbpip" {
