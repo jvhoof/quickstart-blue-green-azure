@@ -162,7 +162,8 @@ resource "azurerm_virtual_machine" "cgfvma" {
   }
 
   tags {
-    environment = "staging"
+    environment = "quickstart"
+    vendor = "Barracuda Networks"
   }
 }
 

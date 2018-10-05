@@ -30,24 +30,22 @@ variable "LOCATION" {
 
 terraform {
   required_version = ">= 0.11"
-
-  backend "azurerm" {}
 }
 
 ##############################################################################################################
 # Microsoft Azure Service Principle information for deployment
 ##############################################################################################################
 
-variable "AZURE_SUBSCRIPTION_ID" {}
-variable "AZURE_CLIENT_ID" {}
-variable "AZURE_CLIENT_SECRET" {}
-variable "AZURE_TENANT_ID" {}
+#variable "AZURE_SUBSCRIPTION_ID" {}
+#variable "AZURE_CLIENT_ID" {}
+#variable "AZURE_CLIENT_SECRET" {}
+#variable "AZURE_TENANT_ID" {}
 
 provider "azurerm" {
-  subscription_id = "${var.AZURE_SUBSCRIPTION_ID}"
-  client_id       = "${var.AZURE_CLIENT_ID}"
-  client_secret   = "${var.AZURE_CLIENT_SECRET}"
-  tenant_id       = "${var.AZURE_TENANT_ID}"
+#  subscription_id = "${var.AZURE_SUBSCRIPTION_ID}"
+#  client_id       = "${var.AZURE_CLIENT_ID}"
+#  client_secret   = "${var.AZURE_CLIENT_SECRET}"
+#  tenant_id       = "${var.AZURE_TENANT_ID}"
 }
 
 ##############################################################################################################
@@ -85,7 +83,8 @@ resource "azurerm_traffic_manager_profile" "trafficmanagerprofile" {
   }
 
   tags {
-    environment = "Production"
+    environment = "quickstart"
+    vendor = "Barracuda Networks"
   }
 }
 

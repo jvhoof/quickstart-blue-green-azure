@@ -128,10 +128,6 @@ terraform plan --out "$PLAN" \
                 -var "PASSWORD=$PASSWORD" \
                 -var "DB_PASSWORD=$DB_PASSWORD" \
                 -var "SSH_KEY_DATA=$SSH_KEY_DATA" \
-                -var "AZURE_CLIENT_ID=$AZURE_CLIENT_ID" \
-                -var "AZURE_CLIENT_SECRET=$AZURE_CLIENT_SECRET" \
-                -var "AZURE_SUBSCRIPTION_ID=$AZURE_SUBSCRIPTION_ID" \
-                -var "AZURE_TENANT_ID=$AZURE_TENANT_ID" \
                 -var "DEPLOYMENTCOLOR=$DEPLOYMENTCOLOR" 
 
 echo ""
@@ -159,6 +155,7 @@ echo ""
 echo "==> Ansible configuration"
 echo ""
 ansible-playbook ansible/all.yml -i "$ANSIBLEINVENTORY" 
+result=$? 
 
 echo ""
 echo "==> Connectivity verification $DEPLOYMENTCOLOR environment"
@@ -171,38 +168,56 @@ echo ""
 echo ""
 echo "==> Terraform init"
 echo ""
-echo "BACKEND_STORAGE_ACCOUNT_NAME: [$BACKEND_STORAGE_ACCOUNT_NAME]"
-#terraform init \
-#  -backend-config="storage_account_name=$BACKEND_STORAGE_ACCOUNT_NAME" \
-#  -backend-config="container_name=$BACKEND_CONTAINER_NAME" \
-#  -backend-config="key=$BACKEND_KEY_TM" \
-#  -backend-config="access_key=$BACKEND_ARM_ACCESS_KEY" 
+terraform init
+
+echo ""
+echo "==> Terraform workspace [trafficmanager]"
+echo ""
+terraform workspace list
+terraform workspace select "trafficmanager" || terraform workspace new "trafficmanager"
+
+if [ ! -f $PLANATM ]; then
+    echo "
+##############################################################################################################
+ No plan file found for Traffic Manager. Assuming a new deployment.
+ Please select a unique DNS name for the traffic manager setup. 
+ The DNS name will be in the trafficmanager.net domain.
+"
+    echo -n " Enter unique DNS name: "
+    stty_orig=`stty -g` # save original terminal setting.
+    read dnsname         # read the prefix
+    stty $stty_orig     # restore terminal setting.
+    export TF_VAR_TDSNAME="$dnsname"
+    echo ""
+    echo "--> Using Azure Traffic Manager dns name [$dnsname.trafficmanager.net] ..."
+    echo ""
+
+    echo "
+##############################################################################################################
+"
+fi
 
 echo ""
 echo "==> Terraform plan"
 echo ""
-#terraform plan --out "$PLANATM" \
-#                -var "CCSECRET=$CCSECRET" \
-#                -var "PASSWORD=$PASSWORD" \
-#                -var "SSH_KEY_DATA=$SSH_KEY_DATA" \
-#                -var "AZURE_CLIENT_ID=$AZURE_CLIENT_ID" \
-#                -var "AZURE_CLIENT_SECRET=$AZURE_CLIENT_SECRET" \
-#                -var "AZURE_SUBSCRIPTION_ID=$AZURE_SUBSCRIPTION_ID" \
-#                -var "AZURE_TENANT_ID=$AZURE_TENANT_ID" \
-#                -var "DEPLOYMENTCOLOR=$DEPLOYMENTCOLOR"
+terraform plan --out "$PLANATM" \
+                -var "CCSECRET=$CCSECRET" \
+                -var "PASSWORD=$PASSWORD" \
+                -var "SSH_KEY_DATA=$SSH_KEY_DATA" \
+                -var "DEPLOYMENTCOLOR=$DEPLOYMENTCOLOR"
 
 echo ""
 echo "==> Terraform apply"
 echo ""
-#terraform apply "$PLANATM"
+terraform apply "$PLANATM"
 cd ../
 
-#result=$? 
-#if [[ $result != 0 ]]; 
-#then 
-#    echo "--> Deployment failed ..."
-#    exit $rc; 
-#else 
+result=$? 
+if [[ $result != 0 ]]; 
+then 
+    echo "--> Deployment failed ..."
+    exit $rc; 
+else 
 echo "
 ##############################################################################################################
 #  _                         
@@ -223,5 +238,6 @@ echo "
 
 "
 cat "../output/$SUMMARY"
-echo "##############################################################################################################"
+echo "
+##############################################################################################################"
 #fi
