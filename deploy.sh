@@ -187,6 +187,14 @@ if [ ! -f $PLANATM ]; then
     stty_orig=`stty -g` # save original terminal setting.
     read dnsname         # read the prefix
     stty $stty_orig     # restore terminal setting.
+    dnsresult=`host $dnsname.trafficmanager.net`
+    echo ""
+    if [ $? > 0 ]; then
+        echo "-> ERROR: DNS name already used."
+    else
+        echo "-> DNS name [$dnsname.trafficmanager.net] is unused"
+    fi
+    echo ""
     export TF_VAR_TDSNAME="$dnsname"
     echo ""
     echo "--> Using Azure Traffic Manager dns name [$dnsname.trafficmanager.net] ..."
