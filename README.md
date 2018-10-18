@@ -1,11 +1,27 @@
-# Barracuda CloudGen Firewall and Web Application Firewall - Blue / Green deployment
+# Barracuda CloudGen Firewall and Web Application Firewall in Azure - Blue / Green Deployment (Zero Downtime Deployment Release)
 
-## Introduction
-Since the begining of time people have tried to automate tasks. Also in computer sience we have seen this from the early days. One limition was the infrastructure that needed to be in place for automation to commence. With virtualisation and public cloud this automation has come full circle and we can now deploy, manage, redeploy everything using automation techniques. We can descibe the operating environment in code, validate it, test it, document it and deploy it from a code repository. 
+## Purpose of this Architecture
+Organizations rely on the "blue-green" architecture when they want an infrastructure that will allow them to test and deploy new applications, builds, updates, etc., with zero downtime, by leveraging identical application stacks.  
 
-This is a giant change compared to the typical laborious deployment of infrastructure through cli, web ui, client or other. 
+This reference architecture, known as blue-green, utilizes two identical applcation stacks - one is always live, and one is always standby.  Because this is deployed in Azure, it is essentialy infrastructure-as-code.
 
-The purpose of this demo is to showcase how you can create, configure and secure your whole environment from code.
+When a new build is deployed (new application, new updates, etc.); it is deployed on the standby stack to allow for thorough testing.  Once it is determined the new build is satisfactory, users are typically added in troups, to ensure that no new issues are encountered, and at some point, all users are added to that stack and the previously-production stack becomes standcy.
+
+## Benefits
+
+- Zero downtime for deployed pipeline
+- Deployment-via-code reduces the opportunities for huyman error to occur
+- Blue/Green allows you to test yournew deployment before it is made life
+- No downtime when switching to a new version
+- You can always revert to the previous version in case of issues with the new version
+
+## Operation
+
+This architecture leverages Azure as well as the Barracuda CloudGen Firewall and CloudGen WAF. The Barracuda CloudGen Fiorewall will provide you a single console through which to view and manage traffic passint through the environment, improving troubleshooting and visibility.  The CloudGen WAF will ensure all inbound web traffic and the responses are inspected for data leakage, viruses, OWASP-Top-10 attacks, web scraping and other threats, to both the application and to your users.
+
+In the below diagram, a blue/green stack ahs been implemented containing database servers, web servbers as well as the security components of CloudGen WAF and CloudGen Firewall to provide security on the access into the Web Application and the environment.
+
+In a Blue/Green design two environments are used to manage the implementation of new software releases or components while maintaining high availability of the services in that environment.  You can esily move users from one environment to another as necessary to complete the release with minimal interruption (i.e., zero downtime).  This architecture can also be leveraged in the scenario where you want to rehydrate your environment to ensure it is clean.
 
 ![CGF Azure Network Architecture](images/cudalab-blue-green.png)
 
