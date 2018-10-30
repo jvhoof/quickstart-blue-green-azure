@@ -1,13 +1,15 @@
 # Barracuda CloudGen Firewall and Web Application Firewall in Azure - Blue / Green Deployment (Zero Downtime Deployment Release)
 
-## Purpose of this Architecture
+## Introduction
+
+### Purpose of this Architecture
 Organizations rely on the "blue-green" architecture when they want an infrastructure that will allow them to test and deploy new applications, builds, updates, etc., with zero downtime, by leveraging identical application stacks.  
 
 This reference architecture, known as blue-green, utilizes two identical applcation stacks - one is always live, and one is always standby.  Because this is deployed in Azure, it is essentialy infrastructure-as-code.
 
 When a new build is deployed (new application, new updates, etc.); it is deployed on the standby stack to allow for thorough testing.  Once it is determined the new build is satisfactory, users are typically added in troups, to ensure that no new issues are encountered, and at some point, all users are added to that stack and the previously-production stack becomes standcy.
 
-## Benefits
+### Benefits
 
 - Zero downtime for deployed pipeline
 - Deployment-via-code reduces the opportunities for huyman error to occur
@@ -15,7 +17,7 @@ When a new build is deployed (new application, new updates, etc.); it is deploye
 - No downtime when switching to a new version
 - You can always revert to the previous version in case of issues with the new version
 
-## Operation
+### Operation
 
 This architecture leverages Azure as well as the Barracuda CloudGen Firewall and CloudGen WAF. The Barracuda CloudGen Fiorewall will provide you a single console through which to view and manage traffic passint through the environment, improving troubleshooting and visibility.  The CloudGen WAF will ensure all inbound web traffic and the responses are inspected for data leakage, viruses, OWASP-Top-10 attacks, web scraping and other threats, to both the application and to your users.
 
@@ -61,7 +63,7 @@ To deploy via Azure Cloud Shell you can connect via the Azure Portal or directly
 
 ![Azure Cloud Shell Bash Edition](images/azurecloudshell1.png)
 
-## deploy.sh and destroy.sh Parameters
+### deploy.sh and destroy.sh Parameters
 The script requires certain environment variables as well as some arguments. 
 
 | Argument | Deploy | Destroy | Parameter Name | Description
@@ -69,7 +71,17 @@ The script requires certain environment variables as well as some arguments.
 -b | X | X | DEPLOYMENTCOLOR BLUE | Which version do you want to deploy... blue
 -g | X | X | DEPLOYMENTCOLOR GREEN | Which version do you want to deploy... green
 
-## Environment Variables
+## Post Deployment Configuration
+
+This deployment creates a CloudGen WAF and CloudGen Firewall. You can once deployed access the demo application by going to the public IP of the WAF using HTTPS.
+
+To manage the CloudGen WAF you can access the management console via a webbrowser on HTTP port 8000 or HTTPS port 8443. More information can be found [here](https://campus.barracuda.com/product/webapplicationfirewall/doc/4259901/getting-started/).
+
+To maange the CloudGen Firewall you can manage it via the Firewall Admin aplication. More information to get started can be found [here](https://campus.barracuda.com/product/cloudgenfirewall/doc/73718955/getting-started/).
+
+It is also recommended you harden management access by enabling multifactor or key authentication and by restricting access to management interface using Management ACL: [How to Change the Root Password and Management ACL](https://campus.barracuda.com/product/nextgenfirewallf/article/NGF71/ChangeRootPWandMgmtACL/)
+
+## Template Parameters
 
 | Variable Name | Description
 |---|---
