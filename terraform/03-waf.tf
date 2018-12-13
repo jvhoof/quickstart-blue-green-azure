@@ -111,10 +111,16 @@ resource "azurerm_network_interface" "wafifc" {
     subnet_id                               = "${azurerm_subnet.subnet2.id}"
     private_ip_address_allocation           = "static"
     private_ip_address                      = "${element(var.waf_ip_addresses[var.DEPLOYMENTCOLOR], count.index)}"
-    load_balancer_backend_address_pools_ids = ["${azurerm_lb_backend_address_pool.waflbbackend.id}"]
     load_balancer_inbound_nat_rules_ids     = ["${element(azurerm_lb_nat_rule.waflbnatrulehttp.*.id, count.index)}", "${element(azurerm_lb_nat_rule.waflbnatrulehttps.*.id, count.index)}"]
   }
 }
+
+resource "azurerm_network_interface_backend_address_pool_association" "wafifcalbb" {
+  network_interface_id    = "${azurerm_network_interface.wafifca.id}"
+  ip_configuration_name   = "interface1"
+  backend_address_pool_id = "${azurerm_lb_backend_address_pool.waflbbackend.id}"
+}
+
 
 resource "azurerm_virtual_machine" "wafvm" {
   name                  = "${var.PREFIX}-${var.DEPLOYMENTCOLOR}-VM-WAF-${count.index}"

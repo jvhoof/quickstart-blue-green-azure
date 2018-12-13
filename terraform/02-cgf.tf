@@ -120,8 +120,13 @@ resource "azurerm_network_interface" "cgfifca" {
     private_ip_address_allocation           = "static"
     private_ip_address                      = "${var.cgf_a_ipaddress[var.DEPLOYMENTCOLOR]}"
     public_ip_address_id                    = "${azurerm_public_ip.cgfpipa.id}"
-    load_balancer_backend_address_pools_ids = ["${azurerm_lb_backend_address_pool.cgflbbackend.id}"]
   }
+}
+
+resource "azurerm_network_interface_backend_address_pool_association" "cgfifcalbb" {
+  network_interface_id    = "${azurerm_network_interface.cgfifca.id}"
+  ip_configuration_name   = "interface1"
+  backend_address_pool_id = "${azurerm_lb_backend_address_pool.cgflbbackend.id}"
 }
 
 resource "azurerm_virtual_machine" "cgfvma" {
