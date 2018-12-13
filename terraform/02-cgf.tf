@@ -184,7 +184,7 @@ data "template_file" "cgf_ansible" {
 
   vars {
     name      = "${var.PREFIX}-${var.DEPLOYMENTCOLOR}-VM-CGF-A"
-    arguments = "ansible_host=${data.azurerm_public_ip.cgfpipa.ip_address} ansible_port=8000 ansible_connection=local gather_facts=no"
+    arguments = "ansible_host=${data.azurerm_public_ip.cgfpipa.ip_address} ansible_port=8443 ansible_connection=local gather_facts=no"
   }
 
   depends_on = ["azurerm_virtual_machine.cgfvma"]
