@@ -1,3 +1,13 @@
+[cgf]
+${cgf_hosts}
+
+[cgf-${deploymentcolor}:children]
+cgf
+
+[cgf-${deploymentcolor}:vars]
+cgf_password=${cgf_password}
+cgf_prefix=${cgf_prefix}
+
 [sql]
 ${sql_hosts}
 

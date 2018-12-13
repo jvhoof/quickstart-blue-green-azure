@@ -169,7 +169,7 @@ resource "azurerm_virtual_machine" "wafvm" {
 
 data "template_file" "waf_ansible" {
   count    = "${length(var.waf_ip_addresses[var.DEPLOYMENTCOLOR])}"
-  template = "${file("${path.module}/ansible_host_waf.tpl")}"
+  template = "${file("${path.module}/ansible_host.tpl")}"
 
   vars {
     name      = "${var.PREFIX}-${var.DEPLOYMENTCOLOR}-VM-WAF-${count.index}"

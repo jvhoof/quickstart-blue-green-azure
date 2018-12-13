@@ -1,0 +1,962 @@
+{
+  "objects": [
+    {
+      "included": [
+          {
+              "entry": {
+                  "ip": "168.63.129.16"
+              }
+          }
+      ],
+      "excluded": [],
+      "name": "Azure-Virtual-IP",
+      "comment": "The IP address 168.63.129.16 is a virtual public IP address that is used to facilitate a communication channel to internal Azure platform resources.",
+      "color": "#ff0000",
+      "type": "generic",
+      "shared": false,
+      "dynamic": false
+    },
+    {
+        "objects": [
+            {
+                "included": [
+                    {
+                        "entry": {
+                            "ip": "0.0.0.0/0"
+                        }
+                    }
+                ],
+                "excluded": [],
+                "name": "VPN-Local-Networks",
+                "comment": "All locally defined networks for Site-2-Site VPN",
+                "type": "generic",
+                "shared": false,
+                "dynamic": false
+            },
+            {
+                "included": [
+                    {
+                        "entry": {
+                            "ip": "0.0.0.0/0",
+                            "interface": "vpn0"
+                        }
+                    }
+                ],
+                "excluded": [],
+                "name": "VPN-Remote-Networks",
+                "comment": "All defined remote networks for Site-2-Site VPN",
+                "type": "generic",
+                "shared": false,
+                "dynamic": false
+            },
+            {
+                "included": [],
+                "excluded": [],
+                "name": "connect.barracuda.com",
+                "type": "hostname",
+                "dnsLifetime": 600,
+                "shared": false,
+                "dynamic": false
+            },
+            {
+                "included": [
+                    {
+                        "entry": {
+                            "ip": "0.0.0.0/0",
+                            "interface": "port1"
+                        }
+                    },
+                    {
+                        "entry": {
+                            "ip": "0.0.0.0/0",
+                            "interface": "port2"
+                        }
+                    },
+                    {
+                        "entry": {
+                            "ip": "0.0.0.0/0",
+                            "interface": "MGMT"
+                        }
+                    },
+                    {
+                        "entry": {
+                            "ip": "0.0.0.0/0",
+                            "interface": "portA1"
+                        }
+                    },
+                    {
+                        "entry": {
+                            "ip": "0.0.0.0/0",
+                            "interface": "p1"
+                        }
+                    },
+                    {
+                        "entry": {
+                            "ip": "0.0.0.0/0",
+                            "interface": "p2"
+                        }
+                    }
+                ],
+                "excluded": [],
+                "name": "Eval Mode Bridged Ports",
+                "type": "generic",
+                "shared": false,
+                "dynamic": false
+            },
+            {
+                "included": [
+                    {
+                        "references": "Private 10"
+                    },
+                    {
+                        "references": "Private 172"
+                    },
+                    {
+                        "references": "Private 192"
+                    }
+                ],
+                "excluded": [],
+                "name": "Private IPv4 Addresses",
+                "comment": "All private networks defined in RFC 1918 section 3",
+                "type": "generic",
+                "shared": false,
+                "dynamic": false
+            },
+            {
+                "included": [
+                    {
+                        "entry": {
+                            "ip": "0.0.0.0/0",
+                            "interface": "vpn0",
+                            "comment": "All networks accessible through VPN interface vpn0"
+                        }
+                    }
+                ],
+                "excluded": [],
+                "name": "VPN-Networks",
+                "comment": "All networks reachable through VPN site-to-site tunnel interface vpn0",
+                "type": "generic",
+                "shared": false,
+                "dynamic": false
+            },
+            {
+                "included": [
+                    {
+                        "entry": {
+                            "ip": "0.0.0.0/0",
+                            "interface": "port4"
+                        }
+                    }
+                ],
+                "excluded": [],
+                "name": "Port-p4",
+                "type": "generic",
+                "shared": false,
+                "dynamic": false
+            },
+            {
+                "included": [
+                    {
+                        "entry": {
+                            "ip": "0.0.0.0/0",
+                            "interface": "port2"
+                        }
+                    }
+                ],
+                "excluded": [],
+                "name": "Port-p2",
+                "type": "generic",
+                "shared": false,
+                "dynamic": false
+            },
+            {
+                "included": [
+                    {
+                        "entry": {
+                            "ip": "0.0.0.0/0",
+                            "interface": "port3"
+                        }
+                    }
+                ],
+                "excluded": [],
+                "name": "Port-p3",
+                "type": "generic",
+                "shared": false,
+                "dynamic": false
+            },
+            {
+                "included": [
+                    {
+                        "entry": {
+                            "ip": "0.0.0.0/0",
+                            "interface": "port1"
+                        }
+                    }
+                ],
+                "excluded": [],
+                "name": "Port-p1",
+                "type": "generic",
+                "shared": false,
+                "dynamic": false
+            },
+            {
+                "included": [
+                    {
+                        "entry": {
+                            "ip": "205.158.110.60"
+                        }
+                    },
+                    {
+                        "entry": {
+                            "ip": "216.129.105.0/24"
+                        }
+                    },
+                    {
+                        "entry": {
+                            "ip": "216.129.125.192/26"
+                        }
+                    },
+                    {
+                        "entry": {
+                            "ip": "209.124.61.96/27"
+                        }
+                    },
+                    {
+                        "entry": {
+                            "ip": "209.124.62.64/27"
+                        }
+                    },
+                    {
+                        "entry": {
+                            "ip": "69.65.110.224/28"
+                        }
+                    },
+                    {
+                        "entry": {
+                            "ip": "69.65.114.160/27"
+                        }
+                    },
+                    {
+                        "entry": {
+                            "ip": "74.200.67.240/28"
+                        }
+                    },
+                    {
+                        "entry": {
+                            "ip": "64.235.144.0/20"
+                        }
+                    },
+                    {
+                        "entry": {
+                            "ip": "64.235.151.85"
+                        }
+                    },
+                    {
+                        "entry": {
+                            "ip": "95.172.71.5"
+                        }
+                    }
+                ],
+                "excluded": [],
+                "name": "Barracuda Update Servers",
+                "type": "generic",
+                "shared": false,
+                "dynamic": false
+            },
+            {
+                "included": [
+                    {
+                        "references": "Management IP"
+                    },
+                    {
+                        "references": "Service IPs"
+                    },
+                    {
+                        "references": "DHCP1 Local IP"
+                    },
+                    {
+                        "references": "DHCP2 Local IP"
+                    },
+                    {
+                        "references": "DHCP3 Local IP"
+                    },
+                    {
+                        "references": "DHCP4 Local IP"
+                    },
+                    {
+                        "references": "DHCP5 Local IP"
+                    },
+                    {
+                        "references": "DHCP6 Local IP"
+                    },
+                    {
+                        "references": "DSL1 Local IP"
+                    },
+                    {
+                        "references": "DSL2 Local IP"
+                    },
+                    {
+                        "references": "DSL3 Local IP"
+                    },
+                    {
+                        "references": "DSL4 Local IP"
+                    },
+                    {
+                        "references": "WWAN Local IP"
+                    }
+                ],
+                "excluded": [],
+                "name": "All Firewall IPs",
+                "comment": "All addresses configured or dynamically assigned on the firewall",
+                "type": "generic",
+                "shared": false,
+                "dynamic": false
+            },
+            {
+                "included": [
+                    {
+                        "entry": {
+                            "ip": "0.0.0.0/0"
+                        }
+                    }
+                ],
+                "excluded": [],
+                "name": "Any",
+                "comment": "All IPv4 addresses",
+                "type": "generic",
+                "shared": false,
+                "dynamic": false
+            },
+            {
+                "included": [
+                    {
+                        "references": "Any"
+                    }
+                ],
+                "excluded": [
+                    {
+                        "entry": {
+                            "ip": "10.0.0.0/8"
+                        }
+                    },
+                    {
+                        "entry": {
+                            "ip": "172.16.0.0/12"
+                        }
+                    },
+                    {
+                        "entry": {
+                            "ip": "192.168.0.0/16"
+                        }
+                    }
+                ],
+                "name": "Internet",
+                "comment": "All routed IPv4 addresses",
+                "type": "generic",
+                "shared": false,
+                "dynamic": false
+            },
+            {
+                "included": [
+                    {
+                        "entry": {
+                            "ip": "10.0.0.0/8"
+                        }
+                    }
+                ],
+                "excluded": [],
+                "name": "Private 10",
+                "comment": "Private class A network",
+                "type": "generic",
+                "shared": false,
+                "dynamic": false
+            },
+            {
+                "included": [
+                    {
+                        "entry": {
+                            "ip": "172.16.0.0/12"
+                        }
+                    }
+                ],
+                "excluded": [],
+                "name": "Private 172",
+                "comment": "16 private class B networks",
+                "type": "generic",
+                "shared": false,
+                "dynamic": false
+            },
+            {
+                "included": [
+                    {
+                        "entry": {
+                            "ip": "192.168.0.0/16"
+                        }
+                    }
+                ],
+                "excluded": [],
+                "name": "Private 192",
+                "comment": "Private class B network",
+                "type": "generic",
+                "shared": false,
+                "dynamic": false
+            },
+            {
+                "included": [
+                    {
+                        "entry": {
+                            "ip": "198.41.0.4",
+                            "comment": "a.root-servers.net"
+                        }
+                    },
+                    {
+                        "entry": {
+                            "ip": "199.9.14.201",
+                            "comment": "b.root-servers.net"
+                        }
+                    },
+                    {
+                        "entry": {
+                            "ip": "192.33.4.12",
+                            "comment": "c.root-servers.net"
+                        }
+                    },
+                    {
+                        "entry": {
+                            "ip": "199.7.91.13",
+                            "comment": "d.root-servers.net"
+                        }
+                    },
+                    {
+                        "entry": {
+                            "ip": "192.203.230.10",
+                            "comment": "e.root-servers.net"
+                        }
+                    },
+                    {
+                        "entry": {
+                            "ip": "192.5.5.241",
+                            "comment": "f.root-servers.net"
+                        }
+                    },
+                    {
+                        "entry": {
+                            "ip": "192.112.36.4",
+                            "comment": "g.root-servers.net"
+                        }
+                    },
+                    {
+                        "entry": {
+                            "ip": "198.97.190.53",
+                            "comment": "h.root-servers.net"
+                        }
+                    },
+                    {
+                        "entry": {
+                            "ip": "192.36.148.17",
+                            "comment": "i.root-servers.net"
+                        }
+                    },
+                    {
+                        "entry": {
+                            "ip": "192.58.128.30",
+                            "comment": "j.root-servers.net"
+                        }
+                    },
+                    {
+                        "entry": {
+                            "ip": "193.0.14.129",
+                            "comment": "k.root-servers.net"
+                        }
+                    },
+                    {
+                        "entry": {
+                            "ip": "199.7.83.42",
+                            "comment": "l.root-servers.net"
+                        }
+                    },
+                    {
+                        "entry": {
+                            "ip": "202.12.27.33",
+                            "comment": "m.root-servers.net"
+                        }
+                    }
+                ],
+                "excluded": [],
+                "name": "Root DNS",
+                "comment": "Root DNS server addresses",
+                "type": "generic",
+                "shared": false,
+                "dynamic": false
+            },
+            {
+                "included": [
+                    {
+                        "references": "Trusted LAN Networks"
+                    },
+                    {
+                        "references": "Trusted Next-Hop Networks"
+                    }
+                ],
+                "excluded": [],
+                "name": "Trusted LAN",
+                "comment": "All network addresses that have a trusted classification. This automatically applies to the management network.",
+                "type": "generic",
+                "shared": false,
+                "dynamic": false
+            },
+            {
+                "included": [],
+                "excluded": [],
+                "name": "ATD Quarantine",
+                "comment": "IP addresses and users that downloaded malicious content",
+                "type": "generic",
+                "shared": false,
+                "dynamic": true
+            },
+            {
+                "included": [
+                    {
+                        "entry": {
+                            "ip": "172.16.100.0/26"
+                        }
+                    }
+                ],
+                "excluded": [],
+                "name": "Local Networks",
+                "comment": "All locally attached static networks",
+                "type": "generic",
+                "shared": false,
+                "dynamic": true
+            },
+            {
+                "included": [
+                    {
+                        "entry": {
+                            "ip": "0.0.0.0"
+                        }
+                    }
+                ],
+                "excluded": [],
+                "name": "NTP Time Server",
+                "comment": "IP addresses of servers used by the firewall for NTP time synchronisation",
+                "type": "generic",
+                "shared": false,
+                "dynamic": true
+            },
+            {
+                "included": [
+                    {
+                        "entry": {
+                            "ip": "172.16.100.10"
+                        }
+                    }
+                ],
+                "excluded": [],
+                "name": "Management IP",
+                "comment": "The firewall's management IP addresses",
+                "type": "generic",
+                "shared": false,
+                "dynamic": true
+            },
+            {
+                "included": [],
+                "excluded": [],
+                "name": "DNS Master Server",
+                "comment": "IP addresses of master servers used by the firewall for DNS zone transfers",
+                "type": "generic",
+                "shared": false,
+                "dynamic": true
+            },
+            {
+                "included": [],
+                "excluded": [],
+                "name": "DNS Servers",
+                "comment": "IP addresses of servers used by the firewall for DNS queries",
+                "type": "generic",
+                "shared": false,
+                "dynamic": true
+            },
+            {
+                "included": [],
+                "excluded": [],
+                "name": "Auth-MSNT",
+                "comment": "IP addresses of all servers used for MSNT type authentication",
+                "type": "generic",
+                "shared": false,
+                "dynamic": true
+            },
+            {
+                "included": [],
+                "excluded": [],
+                "name": "Auth-RADIUS",
+                "comment": "IP addresses of all servers used for RADIUS type authentication",
+                "type": "generic",
+                "shared": false,
+                "dynamic": true
+            },
+            {
+                "included": [],
+                "excluded": [],
+                "name": "Auth-LDAP",
+                "comment": "IP addresses of all servers used for LDAP type authentication",
+                "type": "generic",
+                "shared": false,
+                "dynamic": true
+            },
+            {
+                "included": [],
+                "excluded": [],
+                "name": "Auth-ACTDIR",
+                "comment": "IP addresses of all servers used for Active Directory type authentication",
+                "type": "generic",
+                "shared": false,
+                "dynamic": true
+            },
+            {
+                "included": [],
+                "excluded": [],
+                "name": "Auth-RSASecureID",
+                "comment": "IP addresses of all servers used for RSA-SecureID type authentication",
+                "type": "generic",
+                "shared": false,
+                "dynamic": true
+            },
+            {
+                "included": [],
+                "excluded": [],
+                "name": "WWAN Local IP",
+                "comment": "Assigned local IP for an established WWAN link",
+                "type": "generic",
+                "shared": false,
+                "dynamic": true
+            },
+            {
+                "included": [],
+                "excluded": [],
+                "name": "DHCP1 Local IP",
+                "comment": "Assigned local IP for established DHCP-based link on dhcp1",
+                "type": "generic",
+                "shared": false,
+                "dynamic": true
+            },
+            {
+                "included": [],
+                "excluded": [],
+                "name": "DHCP2 Local IP",
+                "comment": "Assigned local IP for established DHCP-based link on dhcp2",
+                "type": "generic",
+                "shared": false,
+                "dynamic": true
+            },
+            {
+                "included": [],
+                "excluded": [],
+                "name": "DHCP3 Local IP",
+                "comment": "Assigned local IP for established DHCP-based link on dhcp3",
+                "type": "generic",
+                "shared": false,
+                "dynamic": true
+            },
+            {
+                "included": [],
+                "excluded": [],
+                "name": "DHCP4 Local IP",
+                "comment": "Assigned local IP for established DHCP-based link on dhcp4",
+                "type": "generic",
+                "shared": false,
+                "dynamic": true
+            },
+            {
+                "included": [],
+                "excluded": [],
+                "name": "DHCP5 Local IP",
+                "comment": "Assigned local IP for established DHCP-based link on dhcp5",
+                "type": "generic",
+                "shared": false,
+                "dynamic": true
+            },
+            {
+                "included": [],
+                "excluded": [],
+                "name": "DHCP6 Local IP",
+                "comment": "Assigned local IP for established DHCP-based link on dhcp6",
+                "type": "generic",
+                "shared": false,
+                "dynamic": true
+            },
+            {
+                "included": [],
+                "excluded": [],
+                "name": "DSL1 Local IP",
+                "comment": "Assigned local IP for established DSL link through ppp1",
+                "type": "generic",
+                "shared": false,
+                "dynamic": true
+            },
+            {
+                "included": [],
+                "excluded": [],
+                "name": "DSL2 Local IP",
+                "comment": "Assigned local IP for established DSL link through ppp2",
+                "type": "generic",
+                "shared": false,
+                "dynamic": true
+            },
+            {
+                "included": [],
+                "excluded": [],
+                "name": "DSL3 Local IP",
+                "comment": "Assigned local IP for established DSL link through ppp3",
+                "type": "generic",
+                "shared": false,
+                "dynamic": true
+            },
+            {
+                "included": [],
+                "excluded": [],
+                "name": "DSL4 Local IP",
+                "comment": "Assigned local IP for established DSL link through ppp4",
+                "type": "generic",
+                "shared": false,
+                "dynamic": true
+            },
+            {
+                "included": [],
+                "excluded": [],
+                "name": "DMZ Networks",
+                "comment": "All networks classified as DMZ",
+                "type": "generic",
+                "shared": false,
+                "dynamic": true
+            },
+            {
+                "included": [],
+                "excluded": [],
+                "name": "WIFI Network",
+                "comment": "The network associated with Wi-Fi AP on interface ath0",
+                "type": "generic",
+                "shared": false,
+                "dynamic": true
+            },
+            {
+                "included": [],
+                "excluded": [],
+                "name": "WIFI2 Network",
+                "comment": "The network associated with Wi-Fi2 AP on interface ath2",
+                "type": "generic",
+                "shared": false,
+                "dynamic": true
+            },
+            {
+                "included": [],
+                "excluded": [],
+                "name": "WIFI3 Network",
+                "comment": "The network associated with Wi-Fi3 AP on interface ath3",
+                "type": "generic",
+                "shared": false,
+                "dynamic": true
+            },
+            {
+                "included": [
+                    {
+                        "entry": {
+                            "ip": "172.16.100.0/26"
+                        }
+                    }
+                ],
+                "excluded": [],
+                "name": "Trusted LAN Networks",
+                "comment": "All trusted local area networks",
+                "type": "generic",
+                "shared": false,
+                "dynamic": true
+            },
+            {
+                "included": [],
+                "excluded": [],
+                "name": "Trusted Next-Hop Networks",
+                "comment": "All trusted networks reachable through a next-hop",
+                "type": "generic",
+                "shared": false,
+                "dynamic": true
+            },
+            {
+                "included": [
+                    {
+                        "entry": {
+                            "ip": "127.0.0.9"
+                        }
+                    }
+                ],
+                "excluded": [],
+                "name": "Service IPs",
+                "comment": "All configured server IP addresses",
+                "type": "generic",
+                "shared": false,
+                "dynamic": true
+            },
+            {
+                "included": [],
+                "excluded": [],
+                "name": "CustomExternalObject1",
+                "comment": "An externally provided set of addresses",
+                "color": "#8000ff",
+                "type": "generic",
+                "shared": false,
+                "dynamic": true
+            },
+            {
+                "included": [],
+                "excluded": [],
+                "name": "CustomExternalObject2",
+                "comment": "An externally provided set of addresses",
+                "color": "#8000ff",
+                "type": "generic",
+                "shared": false,
+                "dynamic": true
+            },
+            {
+                "included": [],
+                "excluded": [],
+                "name": "CustomExternalObject3",
+                "comment": "An externally provided set of addresses",
+                "color": "#8000ff",
+                "type": "generic",
+                "shared": false,
+                "dynamic": true
+            },
+            {
+                "included": [],
+                "excluded": [],
+                "name": "CustomExternalObject4",
+                "comment": "An externally provided set of addresses",
+                "color": "#8000ff",
+                "type": "generic",
+                "shared": false,
+                "dynamic": true
+            },
+            {
+                "included": [],
+                "excluded": [],
+                "name": "DNS Sinkhole IPV4",
+                "comment": "DNS sinkhole IP used for bad reputation domain IP sinkholing",
+                "type": "generic",
+                "shared": false,
+                "dynamic": true
+            },
+            {
+                "included": [],
+                "excluded": [],
+                "name": "DNS Sinkhole IPV6",
+                "comment": "DNS sinkhole IP used for bad reputation domain IP sinkholing",
+                "type": "generic",
+                "shared": false,
+                "dynamic": true
+            },
+            {
+                "included": [],
+                "excluded": [],
+                "name": "Control Center",
+                "comment": "CC server and additional IP addresses",
+                "type": "generic",
+                "shared": false,
+                "dynamic": true
+            },
+            {
+                "included": [],
+                "excluded": [],
+                "name": "HA Management IP",
+                "comment": "The CC's HA partner management IP address",
+                "type": "generic",
+                "shared": false,
+                "dynamic": true
+            },
+            {
+                "included": [
+                    {
+                        "entry": {
+                            "ip": "0.0.0.0/0"
+                        }
+                    }
+                ],
+                "excluded": [],
+                "name": "BoxACL",
+                "comment": "The management ACL networks as configured in Settings",
+                "type": "generic",
+                "shared": false,
+                "dynamic": true
+            },
+            {
+                "included": [],
+                "excluded": [],
+                "name": "CloudLocalNetworks",
+                "comment": "List of all detected networks in the same virtual network or VPC",
+                "type": "generic",
+                "shared": false,
+                "dynamic": true
+            },
+            {
+                "included": [
+                    {
+                        "entry": {
+                            "ip": "172.16.100.192/26"
+                        }
+                    }
+                ],
+                "excluded": [],
+                "name": "{{ cgf_prefix }}-blue-SUBNET-DB",
+                "type": "generic",
+                "shared": false,
+                "dynamic": false
+            },
+            {
+                "included": [
+                    {
+                        "entry": {
+                            "ip": "172.16.100.64/26"
+                        }
+                    }
+                ],
+                "excluded": [],
+                "name": "{{ cgf_prefix }}-blue-SUBNET-WAF",
+                "type": "generic",
+                "shared": false,
+                "dynamic": false
+            },
+            {
+                "included": [
+                    {
+                        "entry": {
+                            "ip": "172.16.100.128/26"
+                        }
+                    }
+                ],
+                "excluded": [],
+                "name": "{{ cgf_prefix }}-blue-SUBNET-WEB",
+                "type": "generic",
+                "shared": false,
+                "dynamic": false
+            },
+            {
+                "included": [
+                    {
+                        "references": "{{ cgf_prefix }}-blue-SUBNET-DB"
+                    },
+                    {
+                        "references": "{{ cgf_prefix }}-blue-SUBNET-WAF"
+                    },
+                    {
+                        "references": "{{ cgf_prefix }}-blue-SUBNET-WEB"
+                    }
+                ],
+                "excluded": [],
+                "name": "{{ cgf_prefix }}-blue-BACKEND",
+                "type": "generic",
+                "shared": false,
+                "dynamic": false
+            }
+        ]
+    }
+  ]
+}

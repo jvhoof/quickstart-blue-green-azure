@@ -174,6 +174,17 @@ resource "azurerm_virtual_machine" "cgfvma" {
   }
 }
 
+data "template_file" "cgf_ansible" {
+  count    = "${length(var.cgf_a_ipaddress[var.DEPLOYMENTCOLOR])}"
+  template = "${file("${path.module}/ansible_host.tpl")}"
+
+  vars {
+    name      = "${var.PREFIX}-${var.DEPLOYMENTCOLOR}-VM-CGF-A"
+    arguments = "ansible_host=${data.azurerm_public_ip.cgfpipa.ip_address} ansible_port=8000 ansible_connection=local gather_facts=no"
+  }
+
+  depends_on = ["azurerm_virtual_machine.cgfvma"]
+}
 output "cgf_private_ip_address" {
   value = "${azurerm_network_interface.cgfifca.private_ip_address}"
 }
