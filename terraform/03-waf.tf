@@ -116,7 +116,7 @@ resource "azurerm_network_interface" "wafifc" {
 }
 
 resource "azurerm_network_interface_backend_address_pool_association" "wafifcalbb" {
-  network_interface_id    = "${azurerm_network_interface.wafifca.id}"
+  network_interface_id    = "${azurerm_network_interface.wafifc.id}"
   ip_configuration_name   = "interface1"
   backend_address_pool_id = "${azurerm_lb_backend_address_pool.waflbbackend.id}"
 }
