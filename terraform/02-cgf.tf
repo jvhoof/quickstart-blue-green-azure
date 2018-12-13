@@ -137,6 +137,10 @@ resource "azurerm_virtual_machine" "cgfvma" {
   vm_size               = "${var.cgf_vmsize[var.DEPLOYMENTCOLOR]}"
   availability_set_id   = "${azurerm_availability_set.cgfavset.id}"
 
+  identity {
+    type      = "SystemAssigned"
+  }
+
   storage_image_reference {
     publisher = "barracudanetworks"
     offer     = "barracuda-ng-firewall"
@@ -175,7 +179,7 @@ resource "azurerm_virtual_machine" "cgfvma" {
 }
 
 data "template_file" "cgf_ansible" {
-  count    = "${length(var.cgf_a_ipaddress[var.DEPLOYMENTCOLOR])}"
+  count    = "1"
   template = "${file("${path.module}/ansible_host.tpl")}"
 
   vars {

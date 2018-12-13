@@ -115,12 +115,11 @@ resource "azurerm_network_interface" "wafifc" {
   }
 }
 
-resource "azurerm_network_interface_backend_address_pool_association" "wafifcalbb" {
+resource "azurerm_network_interface_backend_address_pool_association" "wafifclbb" {
   network_interface_id    = "${azurerm_network_interface.wafifc.id}"
   ip_configuration_name   = "interface1"
   backend_address_pool_id = "${azurerm_lb_backend_address_pool.waflbbackend.id}"
 }
-
 
 resource "azurerm_virtual_machine" "wafvm" {
   name                  = "${var.PREFIX}-${var.DEPLOYMENTCOLOR}-VM-WAF-${count.index}"
@@ -130,6 +129,10 @@ resource "azurerm_virtual_machine" "wafvm" {
   network_interface_ids = ["${element(azurerm_network_interface.wafifc.*.id, count.index)}"]
   vm_size               = "${var.waf_vmsize[var.DEPLOYMENTCOLOR]}"
   availability_set_id   = "${azurerm_availability_set.wafavset.id}"
+
+  identity {
+    type      = "SystemAssigned"
+  }
 
   storage_image_reference {
     publisher = "barracudanetworks"
