@@ -187,7 +187,7 @@
         "reference": "CLOUD-NET-2-INTERNET"
       },
       "source": {
-          "references": "{{ cgf_prefix }}-blue-BACKEND"
+          "references": "{{ cgf_prefix }}-green-BACKEND"
       },
       "destination": {
           "references": "Internet"
@@ -216,10 +216,10 @@
         "reference": "CLOUD-NET-2-INTERNET"
       },
       "source": {
-          "references": "{{ cgf_prefix }}-blue-SUBNET-WAF"
+          "references": "{{ cgf_prefix }}-green-SUBNET-WAF"
       },
       "destination": {
-          "references": "{{ cgf_prefix }}-blue-SUBNET-WEB"
+          "references": "{{ cgf_prefix }}-green-SUBNET-WEB"
       },
       "service": {
           "explicit": {
@@ -309,10 +309,10 @@
         "reference": "CLOUD-NET-2-INTERNET"
       },
       "source": {
-          "references": "{{ cgf_prefix }}-blue-SUBNET-WEB"
+          "references": "{{ cgf_prefix }}-green-SUBNET-WEB"
       },
       "destination": {
-          "references": "{{ cgf_prefix }}-blue-SUBNET-DB"
+          "references": "{{ cgf_prefix }}-green-SUBNET-DB"
       },
       "service": {
           "explicit": {
