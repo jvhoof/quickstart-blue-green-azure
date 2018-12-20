@@ -7,6 +7,7 @@ cgf
 [cgf-${deploymentcolor}:vars]
 cgf_password=${cgf_password}
 cgf_prefix=${cgf_prefix}
+cgf_deploymentcolor=${deploymentcolor}
 
 [sql]
 ${sql_hosts}

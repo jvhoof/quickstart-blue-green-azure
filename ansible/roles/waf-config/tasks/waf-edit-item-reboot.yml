@@ -25,7 +25,6 @@
 - name: WAF - Waiting for system to return after reboot
   when: ( waf_reboot == true )
   wait_for_connection:
-    port: 8000
     delay: 20
 
 - name: WAF - Checking if Barracuda WAF Login page is ready

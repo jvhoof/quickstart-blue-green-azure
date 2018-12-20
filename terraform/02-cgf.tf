@@ -165,7 +165,7 @@ resource "azurerm_virtual_machine" "cgfvma" {
     computer_name  = "${var.PREFIX}-${var.DEPLOYMENTCOLOR}-VM-CGF-A"
     admin_username = "notused"
     admin_password = "${var.PASSWORD}"
-    custom_data    = "${base64encode("#!/bin/bash\n\nCOLOR=${var.DEPLOYMENTCOLOR}\n\nCGFIP=${var.cgf_a_ipaddress[var.DEPLOYMENTCOLOR]}\n\nCGFSM=${var.cgf_subnetmask[var.DEPLOYMENTCOLOR]}\n\nCGFGW=${var.cgf_defaultgateway[var.DEPLOYMENTCOLOR]}\n\n${file("${path.module}/provisioncgf.sh")}")}"
+    custom_data    = "${data.template_file.custom_data.rendered}"
   }
 
   os_profile_linux_config {
@@ -178,6 +178,15 @@ resource "azurerm_virtual_machine" "cgfvma" {
   }
 }
 
+data "template_file" "custom_data" {
+  template = "${file("${path.module}/provisioncgf.sh")}"
+
+  vars {
+    cgf_ipaddr = "${var.cgf_a_ipaddress[var.DEPLOYMENTCOLOR]}"
+    cgf_mask = "${var.cgf_subnetmask[var.DEPLOYMENTCOLOR]}"
+    cgf_gw =  "${var.cgf_defaultgateway[var.DEPLOYMENTCOLOR]}"
+  }
+}
 data "template_file" "cgf_ansible" {
   count    = "1"
   template = "${file("${path.module}/ansible_host.tpl")}"
