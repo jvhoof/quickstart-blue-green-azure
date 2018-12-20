@@ -98,7 +98,7 @@ if [ ! -f $PLANATM ]; then
     read dnsname         # read the prefix
     stty $stty_orig     # restore terminal setting.
     echo ""
-    export TF_VAR_TDSNAME="$dnsname"
+    export TF_VAR_TMDNSNAME="$dnsname"
     echo ""
     echo "--> Using Azure Traffic Manager dns name [$dnsname.trafficmanager.net] ..."
     echo ""
@@ -210,7 +210,7 @@ terraform workspace select "trafficmanager" || terraform workspace new "trafficm
 echo ""
 echo "==> Terraform plan"
 echo ""
-terraform plan --out "$PLANATM"
+terraform plan --out "$PLANATM" -var "DEPLOYMENTCOLOR=$DEPLOYMENTCOLOR" 
 
 echo ""
 echo "==> Terraform apply"
