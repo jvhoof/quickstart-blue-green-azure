@@ -210,11 +210,7 @@ terraform workspace select "trafficmanager" || terraform workspace new "trafficm
 echo ""
 echo "==> Terraform plan"
 echo ""
-terraform plan --out "$PLANATM" \
-                -var "CCSECRET=$CCSECRET" \
-                -var "PASSWORD=$PASSWORD" \
-                -var "SSH_KEY_DATA=$SSH_KEY_DATA" \
-                -var "DEPLOYMENTCOLOR=$DEPLOYMENTCOLOR"
+terraform plan --out "$PLANATM"
 
 echo ""
 echo "==> Terraform apply"

@@ -1,45 +1,45 @@
 ---
-#- hosts: cgf-blue:cgf-green
-#  gather_facts: no
-#  roles:
-#    - role: cgf-bootstrap
-#
-#- hosts: cgf-blue:cgf-green
-#  gather_facts: no
-#  roles:
-#    - role: cgf-config
+- hosts: cgf-blue:cgf-green
+  gather_facts: no
+  roles:
+    - role: cgf-bootstrap
 
-#- hosts: web:sql
-#  gather_facts: no
-#  become: yes
-#  become_method: sudo
-#  strategy: free
-#  roles:
-#    - role: common
-#    - role: docker
-#
-#- hosts: web
-#  gather_facts: no
-#  become: yes
-#  become_method: sudo
-#  strategy: free
-#  tasks:
-#  - include_role: 
-#      name: colors
-#
-#- hosts: sql
-#  gather_facts: no
-#  become: yes
-#  become_method: sudo
-#  strategy: free
-#  tasks:
-#  - include_role: 
-#      name: sql
-#
-#- hosts: waf-blue:waf-green
-#  gather_facts: no
-#  roles:
-#    - role: waf-bootstrap
+- hosts: cgf-blue:cgf-green
+  gather_facts: no
+  roles:
+    - role: cgf-config
+
+- hosts: web:sql
+  gather_facts: no
+  become: yes
+  become_method: sudo
+  strategy: free
+  roles:
+    - role: common
+    - role: docker
+
+- hosts: web
+  gather_facts: no
+  become: yes
+  become_method: sudo
+  strategy: free
+  tasks:
+  - include_role: 
+      name: colors
+
+- hosts: sql
+  gather_facts: no
+  become: yes
+  become_method: sudo
+  strategy: free
+  tasks:
+  - include_role: 
+      name: sql
+
+- hosts: waf-blue:waf-green
+  gather_facts: no
+  roles:
+    - role: waf-bootstrap
 
 - hosts: waf-blue:waf-green
   gather_facts: no

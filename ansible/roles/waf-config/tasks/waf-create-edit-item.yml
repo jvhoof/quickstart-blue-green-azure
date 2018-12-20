@@ -8,14 +8,13 @@
     force_basic_auth: yes
     headers:
       Content-Type: "application/json"
-    status_code: 200
-  register: service
+    status_code: 200, 404
+  register: result
   ignore_errors: True
-#- debug:
-#    msg: "{{service.json}}"
+  until: result.status != -1
 
 - name: Create "{{ request_name }}"
-  when: service is failed
+  when: result.status == 404
   uri:
     url: "{{ request_url }}{{ request_path }}"
     method: POST
@@ -28,9 +27,11 @@
     headers:
       Content-Type: "application/json"
     status_code: 201
+  register: result2
+  until: result2.status != -1
 
 - name: Edit "{{ request_name }}"
-  when: service is succeeded
+  when: result.status == 200
   uri:
     url: "{{ request_url }}{{ request_path }}/{{ request_name }}"
     method: PUT
@@ -42,3 +43,5 @@
     headers:
       Content-Type: "application/json"
     status_code: 200
+  register: result2
+  until: result2.status != -1
