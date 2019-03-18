@@ -1,3 +1,5 @@
+*Archived project: Check [Barracuda github page](https://github.com/barracudanetworks/cloud-reference-architectures)*
+
 # Barracuda CloudGen Firewall and Web Application Firewall in Azure - Blue / Green Deployment (Zero Downtime Deployment Release)
 
 ## Introduction
